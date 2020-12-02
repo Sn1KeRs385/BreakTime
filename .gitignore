@@ -1,0 +1,8 @@
+/.env
+/.DS_Store
+/.idea/
+/postgresql-data/
+/redis-data/
+
+www/.DS_Store
+/docker-compose.yml
