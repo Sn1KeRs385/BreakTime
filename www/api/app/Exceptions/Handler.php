@@ -6,6 +6,7 @@ use App\Helpers\JSON;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -43,11 +44,13 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $e)
     {
-        $code = null;
+        if($request->acceptsHtml()){
+            return parent::render($request, $e);
+        }
+
         $response = null;
 
         if($e instanceof CustomException){
-            $code = $e->getCode();
             $error = [
                 'code' => $e->getCode(),
                 'message' => $e->getMessage(),
@@ -57,7 +60,6 @@ class Handler extends ExceptionHandler
         }
 
         if($e instanceof AuthenticationException){
-            $code = 403;
             $error = [
                 'code' => 403,
                 'message' => 'AUTHORIZATION_EXCEPTION',
@@ -67,7 +69,6 @@ class Handler extends ExceptionHandler
         }
 
         if($e instanceof \TypeError){
-            $code = 500;
             $error = [
                 'code' => 500,
                 'message' => 'REAL_500',
@@ -78,17 +79,31 @@ class Handler extends ExceptionHandler
             $response = JSON::getJson([], [$error]);
         }
 
+        // Если ошибка связана с валидацией
+        if ($e instanceof ValidationException) {
+            $errors = [];
+            foreach ($e->errors() as $key => $error) {
+                $errors[] = [
+                    'code' => 422,
+                    'field' => $key,
+                    'message' => 'VALIDATION_EXCEPTION',
+                    'description' => $error[0],
+                ];
+            }
+
+            $response = JSON::getJson([], $errors);
+        }
+
         if(!$response){
-            $code = $e->getCode();
             $response = JSON::getJson([], [
                 [
-                    'code' => $code,
+                    'code' => $e->getCode(),
                     'message' => $e->getMessage(),
                     'description' => $e->getMessage(),
                 ]
             ]);
         }
 
-        return Response::json($response, $code);
+        return Response::json($response);
     }
 }
