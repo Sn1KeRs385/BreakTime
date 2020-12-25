@@ -10,7 +10,7 @@ use Laravel\Passport\PersonalAccessTokenResult;
 
 class AuthService
 {
-    public function signup(string $firstName, string $lastName, string $patronymic, string $email, string $password): PersonalAccessTokenResult
+    public function signup(string $firstName, string $lastName, ?string $patronymic, string $email, string $password): PersonalAccessTokenResult
     {
         $user = new User([
             'first_name' => $firstName,

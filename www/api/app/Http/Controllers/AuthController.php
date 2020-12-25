@@ -35,7 +35,7 @@ class AuthController extends Controller
         $token = $this->authService->signup(
             $request->first_name,
             $request->last_name,
-            $request->patronymic,
+            $request->input('patronymic'),
             $request->email,
             $request->password
         );
