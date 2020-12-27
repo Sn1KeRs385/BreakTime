@@ -18,6 +18,7 @@ class Controller extends BaseController
      *
      *  @OA\Tag(name="Default", description="Общее описание ответов")
      *  @OA\Tag(name="Auth", description="Авторизация")
+     *  @OA\Tag(name="Dadata", description="Поиск субъектов (страна, город и тд")
      */
 
     /**
