@@ -15,7 +15,7 @@ class CreateLocationsTable extends Migration
     {
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
-            $table->string('type');
+            $table->unsignedBigInteger('type_id');
             $table->string('prefix');
             $table->string('name');
             $table->string('kladr_id');
@@ -28,7 +28,9 @@ class CreateLocationsTable extends Migration
             $table->foreign('parent_id')
                 ->references('id')
                 ->on('locations');
-            $table->index(['type']);
+            $table->foreign('type_id')
+                ->references('id')
+                ->on('location_types');
             $table->index(['kladr_id']);
         });
     }

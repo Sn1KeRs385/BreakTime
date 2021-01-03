@@ -11,15 +11,15 @@ use Laravel\Passport\HasApiTokens;
  * Class User
  * @package App\Models
  *
- * @property int                                $id
- * @property string                             $last_name
- * @property string                             $first_name
- * @property string|null                        $patronymic
- * @property string                             $name
- * @property string                             $email
- * @property \Illuminate\Support\Carbon|null    $email_verified_at
- * @property \Illuminate\Support\Carbon|null    $created_at
- * @property \Illuminate\Support\Carbon|null    $updated_at
+ * @property int                             $id
+ * @property string                          $last_name
+ * @property string                          $first_name
+ * @property string|null                     $patronymic
+ * @property string                          $name
+ * @property string                          $email
+ * @property \Illuminate\Support\Carbon|null $email_verified_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  *
  * @method static \Illuminate\Database\Eloquent\Builder query()
  * @method static \Illuminate\Database\Eloquent\Builder whereId($value)
