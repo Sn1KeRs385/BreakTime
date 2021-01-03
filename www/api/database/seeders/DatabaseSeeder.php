@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             LocationTypeSeeder::class,
+            AccessTypeSeeder::class,
         ]);
     }
 }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * Class LocationType
+ * Class AccessType
  * @package App\Models
  *
  * @property int    $id
@@ -16,12 +16,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder whereName($value)
  *
- * @method static LocationType first()
- * @method static LocationType firstWhere(array $array)
+ * @method static AccessType first()
+ * @method static AccessType firstWhere(array $array)
  */
-class LocationType extends Model
+class AccessType extends Model
 {
-    public function locations(): HasMany {
-        return $this->hasMany(Location::class);
+    public function accesses(): HasMany {
+        return $this->hasMany(Access::class);
     }
 }
