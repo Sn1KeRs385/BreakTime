@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Helpers\JSON;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Requests\Auth\SignupRequest;
-use App\Http\Resources\Auth\TokenResource;
+use App\Http\Requests\Auth\Api\LoginRequest;
+use App\Http\Requests\Auth\Api\SignupRequest;
+use App\Http\Resources\Auth\Api\TokenResource;
 use Illuminate\Http\Request;
 use App\Services\Api\AuthService;
 
@@ -23,12 +23,12 @@ class AuthController extends Controller
     /**
      *  @OA\Post(
      *      path="/auth/signup",
-     *      operationId="AuthControllerSignup",
+     *      operationId="ApiAuthControllerSignup",
      *      summary="Регистрация нового аккаунта",
      *      tags={"Auth"},
-     *      @OA\RequestBody(required=true, @OA\JsonContent(ref="#/components/schemas/AuthSignupRequest")),
+     *      @OA\RequestBody(required=true, @OA\JsonContent(ref="#/components/schemas/ApiAuthSignupRequest")),
      *
-     *      @OA\Response(response=200, description="Ответ", @OA\JsonContent(ref="#/components/schemas/AuthTokenResource")),
+     *      @OA\Response(response=200, description="Ответ", @OA\JsonContent(ref="#/components/schemas/ApiAuthTokenResource")),
      *  )
      */
     public function signup(SignupRequest $request)
@@ -47,12 +47,12 @@ class AuthController extends Controller
     /**
      *  @OA\Post(
      *      path="/auth/login",
-     *      operationId="AuthControllerLogin",
+     *      operationId="ApiAuthControllerLogin",
      *      summary="Авторизация пользователя",
      *      tags={"Auth"},
-     *      @OA\RequestBody(required=true, @OA\JsonContent(ref="#/components/schemas/AuthLoginRequest")),
+     *      @OA\RequestBody(required=true, @OA\JsonContent(ref="#/components/schemas/ApiAuthLoginRequest")),
      *
-     *      @OA\Response(response=200, description="Ответ", @OA\JsonContent(ref="#/components/schemas/AuthTokenResource")),
+     *      @OA\Response(response=200, description="Ответ", @OA\JsonContent(ref="#/components/schemas/ApiAuthTokenResource")),
      *      @OA\Response(response=401, description="Ошибка 'WRONG_CREDENTIAL'", @OA\JsonContent(ref="#/components/schemas/AuthWrongCredentialException")),
      *  )
      */
@@ -69,7 +69,7 @@ class AuthController extends Controller
     /**
      *  @OA\Post(
      *      path="/auth/logout",
-     *      operationId="AuthControllerLogout",
+     *      operationId="ApiAuthControllerLogout",
      *      summary="Выход пользователя из системы",
      *      tags={"Auth"},
      *      security={{"api_auth":{}}},

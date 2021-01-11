@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Dadata;
+namespace App\Http\Requests\Dadata\Api;
 
 use App\Constants\Dadata\DadataBounds;
-use App\Constants\Dadata\DadataLanguages;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- *  @OA\Schema(schema="DadataFindLocationRequest",
+ *  @OA\Schema(schema="ApiDadataFindLocationRequest",
  *      description="Dadata - поиск места",
  *      type="object",
  *      required={"query", "bound"},

@@ -6,14 +6,14 @@ namespace App\Http\Controllers\Api;
 use App\Constants\Dadata\DadataBounds;
 use App\Helpers\JSON;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Dadata\FindLocationRequest;
-use App\Http\Resources\Dadata\FindLocationAreaResource;
-use App\Http\Resources\Dadata\FindLocationCityResource;
-use App\Http\Resources\Dadata\FindLocationCountryResource;
-use App\Http\Resources\Dadata\FindLocationHouseResource;
-use App\Http\Resources\Dadata\FindLocationRegionResource;
-use App\Http\Resources\Dadata\FindLocationSettlementResource;
-use App\Http\Resources\Dadata\FindLocationStreetResource;
+use App\Http\Requests\Dadata\Api\FindLocationRequest;
+use App\Http\Resources\Dadata\Api\FindLocationAreaResource;
+use App\Http\Resources\Dadata\Api\FindLocationCityResource;
+use App\Http\Resources\Dadata\Api\FindLocationCountryResource;
+use App\Http\Resources\Dadata\Api\FindLocationHouseResource;
+use App\Http\Resources\Dadata\Api\FindLocationRegionResource;
+use App\Http\Resources\Dadata\Api\FindLocationSettlementResource;
+use App\Http\Resources\Dadata\Api\FindLocationStreetResource;
 use App\Repositories\Api\DadataRepository;
 
 class DadataController extends Controller
@@ -28,18 +28,18 @@ class DadataController extends Controller
     /**
      *  @OA\Get(
      *      path="/dadata/find_location",
-     *      operationId="DadataControllerFindLocation",
+     *      operationId="ApiDadataControllerFindLocation",
      *      summary="Поиск субектов",
      *      tags={"Dadata"},
-     *      @OA\RequestBody(required=true, @OA\JsonContent(ref="#/components/schemas/DadataFindLocationRequest")),
+     *      @OA\RequestBody(required=true, @OA\JsonContent(ref="#/components/schemas/ApiDadataFindLocationRequest")),
      *
-     *      @OA\Response(response=2001, description="Ответ - поиск страны (код 200)", @OA\JsonContent(@OA\Items(ref="#/components/schemas/DadataFindLocationCountryResource"))),
-     *      @OA\Response(response=2002, description="Ответ - поиск региона (код 200)", @OA\JsonContent(@OA\Items(ref="#/components/schemas/DadataFindLocationRegionResource"))),
-     *      @OA\Response(response=2003, description="Ответ - поиск района (код 200)", @OA\JsonContent(@OA\Items(ref="#/components/schemas/DadataFindLocationAreaResource"))),
-     *      @OA\Response(response=2004, description="Ответ - поиск города (код 200)", @OA\JsonContent(@OA\Items(ref="#/components/schemas/DadataFindLocationCityResource"))),
-     *      @OA\Response(response=2005, description="Ответ - поиск населенного пункта (код 200)", @OA\JsonContent(@OA\Items(ref="#/components/schemas/DadataFindLocationSettlementResource"))),
-     *      @OA\Response(response=2006, description="Ответ - поиск улицы (код 200)", @OA\JsonContent(@OA\Items(ref="#/components/schemas/DadataFindLocationStreetResource"))),
-     *      @OA\Response(response=2007, description="Ответ - поиск дома (код 200)", @OA\JsonContent(@OA\Items(ref="#/components/schemas/DadataFindLocationHouseResource"))),
+     *      @OA\Response(response=2001, description="Ответ - поиск страны (код 200)", @OA\JsonContent(@OA\Items(ref="#/components/schemas/ApiDadataFindLocationCountryResource"))),
+     *      @OA\Response(response=2002, description="Ответ - поиск региона (код 200)", @OA\JsonContent(@OA\Items(ref="#/components/schemas/ApiDadataFindLocationRegionResource"))),
+     *      @OA\Response(response=2003, description="Ответ - поиск района (код 200)", @OA\JsonContent(@OA\Items(ref="#/components/schemas/ApiDadataFindLocationAreaResource"))),
+     *      @OA\Response(response=2004, description="Ответ - поиск города (код 200)", @OA\JsonContent(@OA\Items(ref="#/components/schemas/ApiDadataFindLocationCityResource"))),
+     *      @OA\Response(response=2005, description="Ответ - поиск населенного пункта (код 200)", @OA\JsonContent(@OA\Items(ref="#/components/schemas/ApiDadataFindLocationSettlementResource"))),
+     *      @OA\Response(response=2006, description="Ответ - поиск улицы (код 200)", @OA\JsonContent(@OA\Items(ref="#/components/schemas/ApiDadataFindLocationStreetResource"))),
+     *      @OA\Response(response=2007, description="Ответ - поиск дома (код 200)", @OA\JsonContent(@OA\Items(ref="#/components/schemas/ApiDadataFindLocationHouseResource"))),
      *  )
      */
     public function findLocation(FindLocationRequest $request)

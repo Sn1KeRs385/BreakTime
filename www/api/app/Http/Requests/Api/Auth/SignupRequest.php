@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\Auth\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- *  @OA\Schema(schema="AuthSignupRequest",
+ *  @OA\Schema(schema="ApiAuthSignupRequest",
  *      description="Авторизация - регистрация пользователя",
  *      type="object",
  *      required={"last_name", "first_name", "email", "password", "password_confirmation"},

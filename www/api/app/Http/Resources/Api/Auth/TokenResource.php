@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Resources\Auth;
+namespace App\Http\Resources\Auth\Api;
 
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- *  @OA\Schema(schema="AuthTokenResource",
+ *  @OA\Schema(schema="ApiAuthTokenResource",
  *      @OA\Property(property="access_token", type="string", example="eyJ0eXAiOiJKV1QiLCJhbGciOiJS"),
  *      @OA\Property(property="token_type", type="string", example="Bearer"),
  *      @OA\Property(property="expires_at", type="integer", example=1638621401),

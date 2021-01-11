@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Resources\Dadata;
+namespace App\Http\Resources\Dadata\Api;
 
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- *  @OA\Schema(schema="DadataFindLocationSettlementResource",
+ *  @OA\Schema(schema="ApiDadataFindLocationSettlementResource",
  *      @OA\Property(property="value", type="string", description="Адрес одной строкой", example="Саратовская обл, Энгельсский р-н, село Березовка"),
  *      @OA\Property(property="unrestricted_value", type="string", description="Адрес одной строкой(полный, с инедксом)", example="413154, Саратовская обл, Энгельсский р-н, село Березовка"),
  *      @OA\Property(property="data", type="object",
