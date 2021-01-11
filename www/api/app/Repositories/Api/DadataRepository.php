@@ -1,14 +1,10 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Api;
 
 
 use App\Constants\Dadata\DadataSuggestTypes;
-use App\Exceptions\Auth\WrongCredentialException;
-use App\Models\User;
 use Dadata\DadataClient;
-use Illuminate\Support\Facades\Auth;
-use Laravel\Passport\PersonalAccessTokenResult;
 
 class DadataRepository
 {

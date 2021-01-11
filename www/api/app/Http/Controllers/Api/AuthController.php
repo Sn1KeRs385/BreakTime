@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 
 use App\Helpers\JSON;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\SignupRequest;
 use App\Http\Resources\Auth\TokenResource;
 use Illuminate\Http\Request;
-use App\Services\AuthService;
+use App\Services\Api\AuthService;
 
 class AuthController extends Controller
 {

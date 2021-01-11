@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 
 use App\Constants\Dadata\DadataBounds;
 use App\Helpers\JSON;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Dadata\FindLocationRequest;
 use App\Http\Resources\Dadata\FindLocationAreaResource;
 use App\Http\Resources\Dadata\FindLocationCityResource;
@@ -13,7 +14,7 @@ use App\Http\Resources\Dadata\FindLocationHouseResource;
 use App\Http\Resources\Dadata\FindLocationRegionResource;
 use App\Http\Resources\Dadata\FindLocationSettlementResource;
 use App\Http\Resources\Dadata\FindLocationStreetResource;
-use App\Repositories\DadataRepository;
+use App\Repositories\Api\DadataRepository;
 
 class DadataController extends Controller
 {
