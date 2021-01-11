@@ -53,7 +53,7 @@ class AuthController extends Controller
      *      @OA\RequestBody(required=true, @OA\JsonContent(ref="#/components/schemas/ApiAuthLoginRequest")),
      *
      *      @OA\Response(response=200, description="Ответ", @OA\JsonContent(ref="#/components/schemas/ApiAuthTokenResource")),
-     *      @OA\Response(response=401, description="Ошибка 'WRONG_CREDENTIAL'", @OA\JsonContent(ref="#/components/schemas/AuthWrongCredentialException")),
+     *      @OA\Response(response=401, description="Ошибка 'WRONG_CREDENTIAL'", @OA\JsonContent(ref="#/components/schemas/ApiAuthWrongCredentialException")),
      *  )
      */
     public function login(LoginRequest $request)

@@ -3,7 +3,7 @@
 namespace App\Services\Api;
 
 
-use App\Exceptions\Auth\WrongCredentialException;
+use App\Exceptions\Api\Auth\WrongCredentialException;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Passport\PersonalAccessTokenResult;
