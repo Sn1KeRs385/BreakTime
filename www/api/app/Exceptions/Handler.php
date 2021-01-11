@@ -7,6 +7,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -92,6 +93,16 @@ class Handler extends ExceptionHandler
             }
 
             $response = JSON::getJson([], $errors);
+        }
+
+        // Если ошибка связана с валидацией
+        if ($e instanceof NotFoundHttpException) {
+            $error = [
+                'code' => 404,
+                'message' => 'NOT_FOUND',
+                'description' => $e->getMessage(),
+            ];
+            $response = JSON::getJson([], [$error]);
         }
 
         if(!$response){
