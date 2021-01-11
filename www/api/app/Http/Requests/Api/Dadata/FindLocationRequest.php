@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Dadata\Api;
+namespace App\Http\Requests\Api\Dadata;
 
 use App\Constants\Dadata\DadataBounds;
 use Illuminate\Foundation\Http\FormRequest;

@@ -6,14 +6,14 @@ namespace App\Http\Controllers\Api;
 use App\Constants\Dadata\DadataBounds;
 use App\Helpers\JSON;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Dadata\Api\FindLocationRequest;
-use App\Http\Resources\Dadata\Api\FindLocationAreaResource;
-use App\Http\Resources\Dadata\Api\FindLocationCityResource;
-use App\Http\Resources\Dadata\Api\FindLocationCountryResource;
-use App\Http\Resources\Dadata\Api\FindLocationHouseResource;
-use App\Http\Resources\Dadata\Api\FindLocationRegionResource;
-use App\Http\Resources\Dadata\Api\FindLocationSettlementResource;
-use App\Http\Resources\Dadata\Api\FindLocationStreetResource;
+use App\Http\Requests\Api\Dadata\FindLocationRequest;
+use App\Http\Resources\Api\Dadata\FindLocationAreaResource;
+use App\Http\Resources\Api\Dadata\FindLocationCityResource;
+use App\Http\Resources\Api\Dadata\FindLocationCountryResource;
+use App\Http\Resources\Api\Dadata\FindLocationHouseResource;
+use App\Http\Resources\Api\Dadata\FindLocationRegionResource;
+use App\Http\Resources\Api\Dadata\FindLocationSettlementResource;
+use App\Http\Resources\Api\Dadata\FindLocationStreetResource;
 use App\Repositories\Api\DadataRepository;
 
 class DadataController extends Controller
@@ -26,7 +26,7 @@ class DadataController extends Controller
     }
 
     /**
-     *  @OA\Get(
+     * @OA\Get(
      *      path="/dadata/find_location",
      *      operationId="ApiDadataControllerFindLocation",
      *      summary="Поиск субектов",
@@ -58,7 +58,8 @@ class DadataController extends Controller
             $count,
             $request->bound,
             $kladrId,
-            $countryIsoCode);
+            $countryIsoCode
+        );
 
         switch($bound) {
             case DadataBounds::REGION:
