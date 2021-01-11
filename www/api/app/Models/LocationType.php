@@ -18,6 +18,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @method static LocationType first()
  * @method static LocationType firstWhere(array $array)
+ * @method static LocationType create(array $array)
+ * @method static LocationType updateOrCreate(array $arraySearch, array $arrayFill)
  */
 class LocationType extends Model
 {

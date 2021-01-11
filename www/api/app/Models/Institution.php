@@ -29,6 +29,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @method static Institution first()
  * @method static Institution firstWhere(array $array)
+ * @method static Institution create(array $array)
+ * @method static Institution updateOrCreate(array $arraySearch, array $arrayFill)
  */
 class Institution extends Model
 {
@@ -48,6 +50,17 @@ class Institution extends Model
 
     public function accesses(): HasMany {
         return $this->hasMany(Access::class);
+    }
+
+    public function getAddressAttribute(): string {
+        $address = null;
+        $location = $this->location;
+        do {
+            $address = "{$location->prefix}. {$location->name}" . ($address ? ", $address" : '');
+            $location = $location->parent;
+        } while($location);
+
+        return $address;
     }
 
     protected $casts = [

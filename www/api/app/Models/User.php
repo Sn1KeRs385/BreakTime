@@ -33,6 +33,8 @@ use Laravel\Passport\HasApiTokens;
  *
  * @method static User first()
  * @method static User firstWhere(array $array)
+ * @method static User create(array $array)
+ * @method static User updateOrCreate(array $arraySearch, array $arrayFill)
  */
 class User extends Authenticatable
 {

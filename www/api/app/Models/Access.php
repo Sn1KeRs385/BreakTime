@@ -29,6 +29,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @method static Access first()
  * @method static Access firstWhere(array $array)
+ * @method static Access create(array $array)
+ * @method static Access updateOrCreate(array $arraySearch, array $arrayFill)
  */
 class Access extends Model
 {

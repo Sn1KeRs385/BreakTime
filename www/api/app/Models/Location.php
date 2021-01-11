@@ -32,6 +32,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @method static Location first()
  * @method static Location firstWhere(array $array)
+ * @method static Location create(array $array)
+ * @method static Location updateOrCreate(array $arraySearch, array $arrayFill)
  */
 class Location extends Model
 {

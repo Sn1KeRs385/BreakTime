@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\Models\HasCompositePrimaryKey;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
  * Class InstitutionUser
@@ -25,11 +26,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @method static InstitutionUser first()
  * @method static InstitutionUser firstWhere(array $array)
+ * @method static InstitutionUser create(array $array)
+ * @method static InstitutionUser updateOrCreate(array $arraySearch, array $arrayFill)
  */
-class InstitutionUser extends Model
+class InstitutionUser extends Pivot
 {
     use HasCompositePrimaryKey;
 
+    public $timestamps = false;
+    protected $keyType = 'array';
     protected $primaryKey = ['institution_id', 'user_id'];
 
     public function institution(): BelongsTo {
@@ -49,6 +54,7 @@ class InstitutionUser extends Model
     protected $fillable = [
         'institution_id',
         'user_id',
+        'is_invite_accept',
         'is_admin',
         'can_change_info',
     ];

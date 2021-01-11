@@ -6,15 +6,9 @@ use Illuminate\Database\Eloquent\Builder;
 
 trait HasCompositePrimaryKey
 {
-    public function getIncrementing()
-    {
-        return false;
-    }
-
-    protected function setKeysForSaveQuery(Builder $query)
+    protected function setKeysForSaveQuery($query)
     {
         foreach ($this->getKeyName() as $key) {
-            // UPDATE: Added isset() per devflow's comment.
             if (isset($this->$key))
                 $query->where($key, '=', $this->$key);
             else

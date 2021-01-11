@@ -18,6 +18,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @method static AccessType first()
  * @method static AccessType firstWhere(array $array)
+ * @method static AccessType create(array $array)
+ * @method static AccessType updateOrCreate(array $arraySearch, array $arrayFill)
  */
 class AccessType extends Model
 {
