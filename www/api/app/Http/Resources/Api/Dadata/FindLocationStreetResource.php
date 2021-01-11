@@ -13,6 +13,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  *          @OA\Property(property="country", type="string", description="Страна", example="Россия"),
  *          @OA\Property(property="country_iso_code", type="string", description="ISO-код страны (двухсимвольный)", example="RU"),
  *          @OA\Property(property="kladr_id", type="string", description="Код КЛАДР", example="64039000004000800"),
+ *          @OA\Property(property="fias_id", type="string", description="Код ФИАС", example="2590ebfb-0936-45c4-8f76-d48dc948304c"),
  *          @OA\Property(property="name", type="string", description="Название", example="Им А.Ф.Михеева"),
  *          @OA\Property(property="type", type="string", description="Тип (сокращенный)", example="ул"),
  *          @OA\Property(property="type_full", type="string", description="Тип", example="улица"),
@@ -33,6 +34,7 @@ class FindLocationStreetResource extends JsonResource
                 'country_iso_code' => $this->resource['data']['country_iso_code'],
 
                 'kladr_id' => $this->resource['data']['street_kladr_id'],
+                'fias_id' => $this->resource['data']['street_fias_id'],
                 'name' => $this->resource['data']['street'],
                 'type' => $this->resource['data']['street_type'],
                 'type_full' => $this->resource['data']['street_type_full'],
