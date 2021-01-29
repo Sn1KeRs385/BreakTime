@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Traits\Models\HasCompositePrimaryKey;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
@@ -31,11 +29,11 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  */
 class InstitutionUser extends Pivot
 {
-    use HasCompositePrimaryKey;
+//    use HasCompositePrimaryKey;
 
     public $timestamps = false;
-    protected $keyType = 'array';
-    protected $primaryKey = ['institution_id', 'user_id'];
+//    protected $keyType = 'array';
+//    protected $primaryKey = ['institution_id', 'user_id'];
 
     public function institution(): BelongsTo {
         return $this->belongsTo(Institution::class);
