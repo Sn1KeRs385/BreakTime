@@ -5,10 +5,11 @@ namespace App\Repositories\Api;
 
 use App\Constants\Dadata\DadataBounds;
 use App\Constants\Dadata\DadataSuggestTypes;
-use App\Constants\LocationTypes;
 use App\Exceptions\Api\Dadata\LocationNotFoundInDadataException;
 use App\Models\Location;
 use Dadata\DadataClient;
+use App\Services\Tests\DadataClient as DadataClientTesting;
+use Illuminate\Support\Facades\App;
 
 class DadataRepository
 {
@@ -18,7 +19,12 @@ class DadataRepository
     {
         $token = config('dadata.api_settings.token');
         $secret = config('dadata.api_settings.secret');
-        $this->dadataClient = new DadataClient($token, $secret);
+
+        if(!App::environment('testing')) {
+            $this->dadataClient = new DadataClient($token, $secret);
+        } else {
+            $this->dadataClient = new DadataClientTesting($token, $secret);
+        }
     }
 
     public function findLocation(string $query, int $count, string $bound, ?string $kladrId = null, ?string $countryIsoCode = null)

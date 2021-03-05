@@ -2,9 +2,8 @@
 
 namespace Tests\Feature\BaseHelpers;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Exceptions\Handler;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
 trait BaseHelper
 {
@@ -14,6 +13,19 @@ trait BaseHelper
         return [
             'status' => true,
             'data' => [],
+        ];
+    }
+
+    protected function getBaseErrorJson(array $errors = [], array $exceptions = []): array {
+        $handler = app(Handler::class);
+        foreach($exceptions as $exception){
+            $errors = array_merge($errors, $handler->render(null, app($exception), true)['errors']);
+        }
+
+        return [
+            'status' => false,
+            'data' => [],
+            'errors' => $errors
         ];
     }
 

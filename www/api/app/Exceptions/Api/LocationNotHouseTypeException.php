@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exceptions\Auth;
+namespace App\Exceptions\Api;
 
 use App\Exceptions\Api\BaseApiException;
 use Throwable;

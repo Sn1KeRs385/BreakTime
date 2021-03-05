@@ -43,9 +43,9 @@ class Handler extends ExceptionHandler
         });
     }
 
-    public function render($request, Throwable $e)
+    public function render($request, Throwable $e, bool $callFromTests = false)
     {
-        if($request->acceptsHtml()){
+        if(!$callFromTests && $request->acceptsHtml()){
             return parent::render($request, $e);
         }
 
@@ -115,6 +115,9 @@ class Handler extends ExceptionHandler
             ]);
         }
 
+        if($callFromTests){
+            return $response;
+        }
         return Response::json($response);
     }
 }
