@@ -20,6 +20,7 @@ class Controller extends BaseController
      *  @OA\Tag(name="Auth", description="Авторизация")
      *  @OA\Tag(name="Dadata", description="Поиск субъектов (страна, город и тд)")
      *  @OA\Tag(name="Institutions", description="Заведения")
+     *  @OA\Tag(name="Places", description="Посадочные места")
      */
 
     /**
@@ -111,6 +112,34 @@ class Controller extends BaseController
 
     /**
      *  @OA\PATCH(
+     *      path="/example_response/authentication_error",
+     *      operationId="exampleResponseAuthenticationError",
+     *      summary="Пример ошибки неавторизованного паользователя",
+     *      tags={"Default"},
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Пользователь не авторизован",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="bool", example=false),
+     *              @OA\Property(property="data", type="object", @OA\Items()),
+     *              @OA\Property(
+     *                  property="errors",
+     *                  type="array",
+     *                  @OA\Items(
+     *                      @OA\Property(property="code", type="integer", example=401),
+     *                      @OA\Property(property="message", type="string", example="AUTHENTICATION_EXCEPTION"),
+     *                      @OA\Property(property="description", type="string", example="Вы не авторизованы."),
+     *                  ),
+     *              ),
+     *          )
+     *      ),
+     *  ),
+     */
+
+
+    /**
+     *  @OA\PATCH(
      *      path="/example_response/authorization_error",
      *      operationId="exampleResponseAuthorizationError",
      *      summary="Пример ошибки прав доступа",
@@ -118,7 +147,7 @@ class Controller extends BaseController
      *
      *      @OA\Response(
      *          response=200,
-     *          description="Пользователь не авторизован, у пользователя нет прав на выполнение и тд",
+     *          description="Пользователь не авторизован",
      *          @OA\JsonContent(
      *              @OA\Property(property="status", type="bool", example=false),
      *              @OA\Property(property="data", type="object", @OA\Items()),
@@ -128,7 +157,7 @@ class Controller extends BaseController
      *                  @OA\Items(
      *                      @OA\Property(property="code", type="integer", example=403),
      *                      @OA\Property(property="message", type="string", example="AUTHORIZATION_EXCEPTION"),
-     *                      @OA\Property(property="description", type="string", example="Вы не авторизованы."),
+     *                      @OA\Property(property="description", type="string", example="У вас недостаточно прав."),
      *                  ),
      *              ),
      *          )

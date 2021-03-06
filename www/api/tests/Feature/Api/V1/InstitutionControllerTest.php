@@ -149,7 +149,7 @@ class InstitutionControllerTest extends TestCase
         $this->indexForUserGenerator($user);
 
         $response = $this->actingAs($user, 'api')
-            ->call('GET', self::$URL, ['only_my' => true]);
+            ->json('GET', self::$URL, ['only_my' => true]);
 
         $response
             ->assertStatus(200)

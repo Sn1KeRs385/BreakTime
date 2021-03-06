@@ -18,6 +18,7 @@ class CreatePlacesTable extends Migration
             $table->unsignedBigInteger('institution_id');
             $table->string('name');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('institution_id')
                 ->references('id')

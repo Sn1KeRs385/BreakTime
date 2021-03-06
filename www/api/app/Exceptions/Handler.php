@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use App\Helpers\JSON;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Response;
@@ -61,6 +62,15 @@ class Handler extends ExceptionHandler
         }
 
         if($e instanceof AuthenticationException){
+            $error = [
+                'code' => 401,
+                'message' => 'AUTHENTICATION_EXCEPTION',
+                'description' => __('auth.errors.AUTHENTICATION_EXCEPTION'),
+            ];
+            $response = JSON::getJson([], [$error]);
+        }
+
+        if($e instanceof AuthorizationException){
             $error = [
                 'code' => 403,
                 'message' => 'AUTHORIZATION_EXCEPTION',
