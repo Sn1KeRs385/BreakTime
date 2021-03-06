@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 class UserFactory extends Factory
 {
@@ -17,11 +16,11 @@ class UserFactory extends Factory
             'first_name' => $this->faker->firstName(),
             'patronymic' => $this->faker->firstName(),
             'email' => $this->faker->email,
-            'password' => $this->faker->password(),
+            'password' => bcrypt($this->faker->password()),
         ];
     }
 
-    public function emailVerified()
+    public function emailVerified(): UserFactory
     {
         return $this->state(function (array $attributes) {
             return [

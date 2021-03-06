@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Relations\AccessRelations;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class Access
@@ -34,13 +33,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Access extends Model
 {
-    public function type(): BelongsTo {
-        return $this->belongsTo(AccessType::class);
-    }
-
-    public function institution(): BelongsTo {
-        return $this->belongsTo(Institution::class);
-    }
+    use AccessRelations;
 
     protected $casts = [
         'start_at'   => 'datetime',

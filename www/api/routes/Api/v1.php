@@ -14,9 +14,14 @@ use App\Http\Controllers\Api\V1\InstitutionController;
 |
 */
 
-Route::group(['middleware' => 'auth:api'], function() {
+Route::group(['middleware' => 'can_auth:api'], function() {
     Route::group(['prefix' => 'institutions'], function () {
         Route::get('/', [InstitutionController::class, 'index']);
+    });
+});
+
+Route::group(['middleware' => 'auth:api'], function() {
+    Route::group(['prefix' => 'institutions'], function () {
         Route::post('/', [InstitutionController::class, 'store']);
     });
 });

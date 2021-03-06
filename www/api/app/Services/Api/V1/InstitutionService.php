@@ -4,7 +4,7 @@ namespace App\Services\Api\V1;
 
 
 use App\Constants\AccessTypes;
-use App\Exceptions\Auth\InstitutionAlreadyExistsException;
+use App\Exceptions\Api\InstitutionAlreadyExistsException;
 use App\Models\Institution;
 use App\Models\Location;
 use App\Models\User;

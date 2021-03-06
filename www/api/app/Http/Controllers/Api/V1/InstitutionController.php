@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 
 use App\Constants\LocationTypes;
-use App\Exceptions\Auth\LocationNotHouseTypeException;
+use App\Exceptions\Api\LocationNotHouseTypeException;
 use App\Helpers\JSON;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Institution\IndexRequest;
@@ -78,7 +78,6 @@ class InstitutionController extends Controller
      */
     public function index(IndexRequest $request)
     {
-//        $page = (int) $request->input('page', 1);
         $perPage = (int) $request->input('per_page', 10);
         $onlyMy = filter_var($request->input('only_my', false), FILTER_VALIDATE_BOOLEAN);
         $filters = $request->input('filters', []);
