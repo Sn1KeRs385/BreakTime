@@ -2,11 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Relations\InstitutionRelations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -37,22 +35,7 @@ class Institution extends Model
 {
     use SoftDeletes;
     use HasFactory;
-
-    public function location(): BelongsTo {
-        return $this->belongsTo(Location::class);
-    }
-
-    public function institutionUsers(): HasMany {
-        return $this->hasMany(InstitutionUser::class);
-    }
-
-    public function users(): HasManyThrough {
-        return $this->hasManyThrough(User::class, InstitutionUser::class);
-    }
-
-    public function accesses(): HasMany {
-        return $this->hasMany(Access::class);
-    }
+    use InstitutionRelations;
 
     public function getAddressAttribute(): string {
         $address = null;

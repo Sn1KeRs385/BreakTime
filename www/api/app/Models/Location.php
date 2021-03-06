@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Relations\LocationRelations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class Location
@@ -39,14 +39,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Location extends Model
 {
     use HasFactory;
-
-    public function parent(): BelongsTo {
-        return $this->belongsTo(Location::class);
-    }
-
-    public function type(): BelongsTo {
-        return $this->belongsTo(LocationType::class);
-    }
+    use LocationRelations;
 
     protected $casts = [
         'created_at' => 'datetime',

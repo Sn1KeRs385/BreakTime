@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Relations\LocationTypeRelations;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class LocationType
@@ -23,7 +23,5 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class LocationType extends Model
 {
-    public function locations(): HasMany {
-        return $this->hasMany(Location::class);
-    }
+    use LocationTypeRelations;
 }

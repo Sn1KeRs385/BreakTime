@@ -7,7 +7,6 @@ use App\Exceptions\Api\Dadata\LocationNotFoundInDadataException;
 use App\Exceptions\Api\InstitutionAlreadyExistsException;
 use App\Exceptions\Api\LocationNotHouseTypeException;
 use App\Models\Institution;
-use App\Services\Tests\Api\DadataClient;
 use Tests\Feature\Api\V1\Helpers\InstitutionControllerTestHelper;
 use Tests\TestCase;
 
@@ -128,5 +127,38 @@ class InstitutionControllerTest extends TestCase
         $response
             ->assertStatus(200)
             ->assertJson($this->getBaseErrorJson([], [LocationNotFoundInDadataException::class]));
+    }
+
+    public function testIndex()
+    {
+        $this->indexGenerator();
+
+        $response = $this->getJson(self::$URL);
+
+        $response
+            ->assertStatus(200)
+            ->assertJson($this->getBaseSuccessJson())
+            ->assertJsonStructure($this->getBaseSuccessStructure($this->indexJsonStructure()));
+
+        $this->assertEquals((int) $response->decodeResponseJson()->json('data.meta.total') > 0, true);
+    }
+
+    public function testIndexForUser()
+    {
+        $user = $this->createUser();
+        $this->indexForUserGenerator($user);
+
+        $response = $this->actingAs($user, 'api')
+            ->call('GET', self::$URL, ['only_my' => true]);
+
+        $response
+            ->assertStatus(200)
+            ->assertJson($this->getBaseSuccessJson())
+            ->assertJsonStructure($this->getBaseSuccessStructure($this->indexJsonStructure()));
+
+        $this->assertEquals(
+            (int) $response->decodeResponseJson()->json('data.meta.total'),
+            $user->institutions()->count()
+        );
     }
 }

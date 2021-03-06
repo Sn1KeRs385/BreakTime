@@ -35,4 +35,15 @@ trait BaseHelper
             'data' => $data,
         ];
     }
+
+    protected function getIndexMetaStructure(): array {
+        return [
+            'meta' => [
+                'current_page',
+                'last_page',
+                'per_page',
+                'total',
+            ]
+        ];
+    }
 }
