@@ -14,10 +14,14 @@ trait PlaceControllerTestHelper
 
     protected function allJsonStructure(): array {
         return [
-            '*' => [
-                'id',
-                'name',
-            ],
+            '*' => $this->baseJsonStructure(),
+        ];
+    }
+
+    protected function baseJsonStructure(): array {
+        return [
+            'id',
+            'name',
         ];
     }
 
@@ -58,5 +62,103 @@ trait PlaceControllerTestHelper
             ->create();
 
         return $institution;
+    }
+
+    protected function getDataStore(User $user): array {
+        $institution = Institution::factory()
+            ->withLocation()
+            ->hasAttached(
+                $user,
+                [
+                    'is_invite_accept' => true,
+                    'is_can_create_place' => true,
+                ]
+            )
+            ->create();
+
+        $place = Place::factory()
+            ->make();
+
+        return [
+            'institution_id' => $institution->id,
+            'name' => $place->name,
+        ];
+    }
+
+    protected function getDataStoreWhenNameAlreadyExists(User $user): array {
+        $institution = Institution::factory()
+            ->withLocation()
+            ->hasAttached(
+                $user,
+                [
+                    'is_invite_accept' => true,
+                    'is_can_create_place' => true,
+                ]
+            )
+            ->create();
+
+        $place = Place::factory()
+            ->create(['institution_id' => $institution->id]);
+
+        return [
+            'institution_id' => $institution->id,
+            'name' => $place->name,
+            'place_id' => $place->id,
+        ];
+    }
+
+    protected function getDataStoreAdmin(User $user): array {
+        $institution = Institution::factory()
+            ->withLocation()
+            ->hasAttached(
+                $user,
+                [
+                    'is_invite_accept' => true,
+                    'is_admin' => true,
+                ]
+            )
+            ->create();
+
+        $place = Place::factory()
+            ->make();
+
+        return [
+            'institution_id' => $institution->id,
+            'name' => $place->name,
+        ];
+    }
+
+    protected function getDataStoreNotAccess(User $user): array {
+        $institution = Institution::factory()
+            ->withLocation()
+            ->hasAttached(
+                $user,
+                [
+                    'is_invite_accept' => true,
+                ]
+            )
+            ->create();
+
+        $place = Place::factory()
+            ->make();
+
+        return [
+            'institution_id' => $institution->id,
+            'name' => $place->name,
+        ];
+    }
+
+    protected function getDataStoreNotInstitutionUser(): array {
+        $institution = Institution::factory()
+            ->withLocation()
+            ->create();
+
+        $place = Place::factory()
+            ->make();
+
+        return [
+            'institution_id' => $institution->id,
+            'name' => $place->name,
+        ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api\V1;
 
+use App\Models\Place;
 use Illuminate\Auth\Access\AuthorizationException;
 use Tests\Feature\Api\V1\Helpers\PlaceControllerTestHelper;
 use Tests\TestCase;
@@ -52,5 +53,101 @@ class PlaceControllerTest extends TestCase
         $response
             ->assertStatus(200)
             ->assertJson($this->getBaseErrorJson([], [AuthorizationException::class]));
+    }
+
+    public function testStore()
+    {
+        $user = $this->createUser();
+        $data = $this->getDataStore($user);
+
+        $this->assertDatabaseMissing('places', $data);
+
+        $response = $this->actingAs($user, 'api')
+            ->json('POST', self::$URL, $data);
+
+        $response
+            ->assertStatus(200)
+            ->assertJson($this->getBaseSuccessJson())
+            ->assertJsonStructure($this->getBaseSuccessStructure($this->baseJsonStructure()));
+
+        $this->assertDatabaseHas('places', $data);
+    }
+
+    public function testStoreWhenNameAlreadyExists()
+    {
+        $user = $this->createUser();
+        $data = $this->getDataStoreWhenNameAlreadyExists($user);
+
+        $placeId =  $data['place_id'];
+        unset($data['place_id']);
+
+        $this->assertDatabaseHas('places', $data);
+        $countBeforeRequest = Place::count();
+
+        $response = $this->actingAs($user, 'api')
+            ->json('POST', self::$URL, $data);
+
+        $response
+            ->assertStatus(200)
+            ->assertJson($this->getBaseSuccessJson())
+            ->assertJsonStructure($this->getBaseSuccessStructure($this->baseJsonStructure()));
+
+        $response->assertJson(['data' => ['id' => $placeId]]);
+
+        $countAfterRequest = Place::count();
+
+        $this->assertEquals($countBeforeRequest, $countAfterRequest);
+    }
+
+    public function testStoreAdmin()
+    {
+        $user = $this->createUser();
+        $data = $this->getDataStoreAdmin($user);
+
+        $this->assertDatabaseMissing('places', $data);
+
+        $response = $this->actingAs($user, 'api')
+            ->json('POST', self::$URL, $data);
+
+        $response
+            ->assertStatus(200)
+            ->assertJson($this->getBaseSuccessJson())
+            ->assertJsonStructure($this->getBaseSuccessStructure($this->baseJsonStructure()));
+
+        $this->assertDatabaseHas('places', $data);
+    }
+
+    public function testStoreNotAccess()
+    {
+        $user = $this->createUser();
+        $data = $this->getDataStoreNotAccess($user);
+
+        $this->assertDatabaseMissing('places', $data);
+
+        $response = $this->actingAs($user, 'api')
+            ->json('POST', self::$URL, $data);
+
+        $response
+            ->assertStatus(200)
+            ->assertJson($this->getBaseErrorJson([], [AuthorizationException::class]));
+
+        $this->assertDatabaseMissing('places', $data);
+    }
+
+    public function testStoreNotInstitutionUser()
+    {
+        $user = $this->createUser();
+        $data = $this->getDataStoreNotInstitutionUser();
+
+        $this->assertDatabaseMissing('places', $data);
+
+        $response = $this->actingAs($user, 'api')
+            ->json('POST', self::$URL, $data);
+
+        $response
+            ->assertStatus(200)
+            ->assertJson($this->getBaseErrorJson([], [AuthorizationException::class]));
+
+        $this->assertDatabaseMissing('places', $data);
     }
 }

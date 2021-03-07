@@ -4,12 +4,9 @@ namespace App\Policies;
 
 use App\Models\Institution;
 use App\Models\User;
-use Illuminate\Auth\Access\HandlesAuthorization;
 
-class InstitutionPolicy
+class InstitutionPolicy extends BasePolicy
 {
-    use HandlesAuthorization;
-
     public function viewAny(User $user)
     {
         //
@@ -17,10 +14,7 @@ class InstitutionPolicy
 
     public function view(User $user, Institution $institution)
     {
-        return $institution->institutionUsers()
-            ->where('user_id', $user->id)
-            ->where('is_invite_accept', true)
-            ->exists();
+        return $this->checkAccess($user, $institution, 'is_invite_accept');
     }
 
     public function create(User $user)

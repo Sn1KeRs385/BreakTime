@@ -6,14 +6,15 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 /**
- *  @OA\Schema(schema="ApiV1PlaceAllRequest",
- *      description="Посадочные места - весь список",
+ *  @OA\Schema(schema="ApiV1PlaceStoreRequest",
+ *      description="Посадочные места - создание",
  *      type="object",
- *      required={"institution_id"},
+ *      required={"institution_id", "name"},
  *      @OA\Property (property="institution_id", example=1, type="integer", description="Идентификатор заведения для выборки"),
+ *      @OA\Property (property="name", type="string", maxLength=255, description="Название заведения", example="Стол 4"),
  *  )
  */
-class AllRequest extends FormRequest
+class StoreRequest extends FormRequest
 {
     public function rules()
     {
@@ -24,6 +25,7 @@ class AllRequest extends FormRequest
                 Rule::exists('institutions', 'id')
                     ->whereNull('deleted_at'),
             ],
+            'name' => 'required|string|max:255',
         ];
     }
 }

@@ -2,14 +2,12 @@
 
 namespace App\Policies;
 
+use App\Models\Institution;
 use App\Models\Place;
 use App\Models\User;
-use Illuminate\Auth\Access\HandlesAuthorization;
 
-class PlacePolicy
+class PlacePolicy extends BasePolicy
 {
-    use HandlesAuthorization;
-
     public function viewAny(User $user)
     {
         //
@@ -20,9 +18,9 @@ class PlacePolicy
         //
     }
 
-    public function create(User $user)
+    public function create(User $user, Institution $institution)
     {
-        //
+        return $this->checkAccess($user, $institution, 'is_can_create_place');
     }
 
     public function update(User $user, Place $place)

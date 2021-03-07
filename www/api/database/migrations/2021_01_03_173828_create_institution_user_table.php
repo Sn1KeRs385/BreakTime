@@ -22,6 +22,12 @@ class CreateInstitutionUserTable extends Migration
                 ->default(false);
             $table->boolean('is_can_change_info')
                 ->default(false);
+            $table->boolean('is_can_create_place')
+                ->default(false);
+            $table->boolean('is_can_update_place')
+                ->default(false);
+            $table->boolean('is_can_delete_place')
+                ->default(false);
 
             $table->foreign('institution_id')
                 ->references('id')
