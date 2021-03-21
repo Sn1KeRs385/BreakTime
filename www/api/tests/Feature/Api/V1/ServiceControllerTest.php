@@ -278,7 +278,7 @@ class ServiceControllerTest extends TestCase
     {
         $user = $this->createUser();
         $data = $this->getDataDelete($user);
-        
+
         $this->assertDatabaseHas('services', $data);
 
         $response = $this->actingAs($user, 'api')

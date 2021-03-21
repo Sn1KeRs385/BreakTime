@@ -100,7 +100,7 @@ class PlaceController extends Controller
      *      security={{"api_auth":{}}},
      *      @OA\RequestBody(required=true, @OA\JsonContent(ref="#/components/schemas/ApiV1PlaceDeleteRequest")),
      *
-     *      @OA\Response(response=200, description="Ответ", @OA\JsonContent()),
+     *      @OA\Response(response=200, description="Ответ", @OA\JsonContent(type="array", example="[]", @OA\Items())),
      *  )
      */
     public function delete(DeleteRequest $request)

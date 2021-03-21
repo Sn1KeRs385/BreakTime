@@ -98,14 +98,14 @@ class ServiceController extends Controller
 
     /**
      *  @OA\Delete (
-     *      path="/v1/places",
-     *      operationId="V1PlaceControllerDelete",
-     *      summary="Удаление существующего посадочного места",
-     *      tags={"Places"},
+     *      path="/v1/services",
+     *      operationId="V1ServiceControllerDelete",
+     *      summary="Удаление существующего товара/услуги",
+     *      tags={"Services"},
      *      security={{"api_auth":{}}},
      *      @OA\RequestBody(required=true, @OA\JsonContent(ref="#/components/schemas/ApiV1ServiceDeleteRequest")),
      *
-     *      @OA\Response(response=200, description="Ответ", @OA\JsonContent()),
+     *      @OA\Response(response=200, description="Ответ", @OA\JsonContent(type="array", example="[]", @OA\Items())),
      *  )
      */
     public function delete(DeleteRequest $request)
