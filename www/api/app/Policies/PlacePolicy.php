@@ -30,7 +30,7 @@ class PlacePolicy extends BasePolicy
 
     public function delete(User $user, Place $place)
     {
-        //
+        return $this->checkAccess($user, $place->institution, 'is_can_delete_place');
     }
 
     public function restore(User $user, Place $place)

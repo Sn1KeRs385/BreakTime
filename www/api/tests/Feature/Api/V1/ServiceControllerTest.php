@@ -2,16 +2,16 @@
 
 namespace Tests\Feature\Api\V1;
 
-use App\Models\Place;
+use App\Models\Service;
 use Illuminate\Auth\Access\AuthorizationException;
-use Tests\Feature\Api\V1\Helpers\PlaceControllerTestHelper;
+use Tests\Feature\Api\V1\Helpers\ServiceControllerTestHelper;
 use Tests\TestCase;
 
-class PlaceControllerTest extends TestCase
+class ServiceControllerTest extends TestCase
 {
-    use PlaceControllerTestHelper;
+    use ServiceControllerTestHelper;
 
-    protected static string $URL = "api/v1/places";
+    protected static string $URL = "api/v1/services";
 
     public function testAll()
     {
@@ -26,7 +26,7 @@ class PlaceControllerTest extends TestCase
             ->assertJson($this->getBaseSuccessJson())
             ->assertJsonStructure($this->getBaseSuccessStructure($this->allJsonStructure()));
 
-        $response->assertJsonCount($institution->places()->count(), 'data');
+        $response->assertJsonCount($institution->services()->count(), 'data');
     }
 
     public function testAllWhenNotAcceptedInvite()
@@ -60,7 +60,7 @@ class PlaceControllerTest extends TestCase
         $user = $this->createUser();
         $data = $this->getDataStore($user);
 
-        $this->assertDatabaseMissing('places', $data);
+        $this->assertDatabaseMissing('services', $data);
 
         $response = $this->actingAs($user, 'api')
             ->json('POST', self::$URL, $data);
@@ -70,7 +70,7 @@ class PlaceControllerTest extends TestCase
             ->assertJson($this->getBaseSuccessJson())
             ->assertJsonStructure($this->getBaseSuccessStructure($this->baseJsonStructure()));
 
-        $this->assertDatabaseHas('places', $data);
+        $this->assertDatabaseHas('services', $data);
     }
 
     public function testStoreWhenNameAlreadyExists()
@@ -78,11 +78,11 @@ class PlaceControllerTest extends TestCase
         $user = $this->createUser();
         $data = $this->getDataStoreWhenNameAlreadyExists($user);
 
-        $placeId =  $data['place_id'];
-        unset($data['place_id']);
+        $serviceId =  $data['service_id'];
+        unset($data['service_id']);
 
-        $this->assertDatabaseHas('places', $data);
-        $countBeforeRequest = Place::count();
+        $this->assertDatabaseHas('services', $data);
+        $countBeforeRequest = Service::count();
 
         $response = $this->actingAs($user, 'api')
             ->json('POST', self::$URL, $data);
@@ -92,9 +92,9 @@ class PlaceControllerTest extends TestCase
             ->assertJson($this->getBaseSuccessJson())
             ->assertJsonStructure($this->getBaseSuccessStructure($this->baseJsonStructure()));
 
-        $response->assertJson(['data' => ['id' => $placeId]]);
+        $response->assertJson(['data' => ['id' => $serviceId]]);
 
-        $countAfterRequest = Place::count();
+        $countAfterRequest = Service::count();
 
         $this->assertEquals($countBeforeRequest, $countAfterRequest);
     }
@@ -104,7 +104,7 @@ class PlaceControllerTest extends TestCase
         $user = $this->createUser();
         $data = $this->getDataStoreAdmin($user);
 
-        $this->assertDatabaseMissing('places', $data);
+        $this->assertDatabaseMissing('services', $data);
 
         $response = $this->actingAs($user, 'api')
             ->json('POST', self::$URL, $data);
@@ -114,7 +114,7 @@ class PlaceControllerTest extends TestCase
             ->assertJson($this->getBaseSuccessJson())
             ->assertJsonStructure($this->getBaseSuccessStructure($this->baseJsonStructure()));
 
-        $this->assertDatabaseHas('places', $data);
+        $this->assertDatabaseHas('services', $data);
     }
 
     public function testStoreNotAccess()
@@ -122,7 +122,7 @@ class PlaceControllerTest extends TestCase
         $user = $this->createUser();
         $data = $this->getDataStoreNotAccess($user);
 
-        $this->assertDatabaseMissing('places', $data);
+        $this->assertDatabaseMissing('services', $data);
 
         $response = $this->actingAs($user, 'api')
             ->json('POST', self::$URL, $data);
@@ -131,7 +131,7 @@ class PlaceControllerTest extends TestCase
             ->assertStatus(200)
             ->assertJson($this->getBaseErrorJson([], [AuthorizationException::class]));
 
-        $this->assertDatabaseMissing('places', $data);
+        $this->assertDatabaseMissing('services', $data);
     }
 
     public function testStoreNotInstitutionUser()
@@ -139,7 +139,7 @@ class PlaceControllerTest extends TestCase
         $user = $this->createUser();
         $data = $this->getDataStoreNotInstitutionUser();
 
-        $this->assertDatabaseMissing('places', $data);
+        $this->assertDatabaseMissing('services', $data);
 
         $response = $this->actingAs($user, 'api')
             ->json('POST', self::$URL, $data);
@@ -148,7 +148,7 @@ class PlaceControllerTest extends TestCase
             ->assertStatus(200)
             ->assertJson($this->getBaseErrorJson([], [AuthorizationException::class]));
 
-        $this->assertDatabaseMissing('places', $data);
+        $this->assertDatabaseMissing('services', $data);
     }
 
     public function testUpdate()
@@ -156,17 +156,20 @@ class PlaceControllerTest extends TestCase
         $user = $this->createUser();
         $data = $this->getDataUpdate($user);
 
-        $this->assertDatabaseMissing('places', $data);
+        $this->assertDatabaseMissing('services', $data);
 
         $response = $this->actingAs($user, 'api')
             ->json('PUT', self::$URL, $data);
 
+        $jsonData = $data;
+        $jsonData['price'] = round($jsonData['price'], 2);
+
         $response
             ->assertStatus(200)
-            ->assertJson($this->getBaseSuccessJson($data))
+            ->assertJson($this->getBaseSuccessJson($jsonData))
             ->assertJsonStructure($this->getBaseSuccessStructure($this->baseJsonStructure()));
 
-        $this->assertDatabaseHas('places', $data);
+        $this->assertDatabaseHas('services', $data);
     }
 
     public function testUpdateWithoutChange()
@@ -174,17 +177,20 @@ class PlaceControllerTest extends TestCase
         $user = $this->createUser();
         $data = $this->getDataUpdateWithoutChange($user);
 
-        $this->assertDatabaseHas('places', $data);
+        $this->assertDatabaseHas('services', $data);
 
         $response = $this->actingAs($user, 'api')
             ->json('PUT', self::$URL, $data);
 
+        $jsonData = $data;
+        $jsonData['price'] = round($jsonData['price'], 2);
+
         $response
             ->assertStatus(200)
-            ->assertJson($this->getBaseSuccessJson($data))
+            ->assertJson($this->getBaseSuccessJson($jsonData))
             ->assertJsonStructure($this->getBaseSuccessStructure($this->baseJsonStructure()));
 
-        $this->assertDatabaseHas('places', $data);
+        $this->assertDatabaseHas('services', $data);
     }
 
     public function testUpdateAdmin()
@@ -192,17 +198,21 @@ class PlaceControllerTest extends TestCase
         $user = $this->createUser();
         $data = $this->getDataUpdateAdmin($user);
 
-        $this->assertDatabaseMissing('places', $data);
+        $this->assertDatabaseMissing('services', $data);
 
         $response = $this->actingAs($user, 'api')
             ->json('PUT', self::$URL, $data);
 
+
+        $jsonData = $data;
+        $jsonData['price'] = round($jsonData['price'], 2);
+
         $response
             ->assertStatus(200)
-            ->assertJson($this->getBaseSuccessJson($data))
+            ->assertJson($this->getBaseSuccessJson($jsonData))
             ->assertJsonStructure($this->getBaseSuccessStructure($this->baseJsonStructure()));
 
-        $this->assertDatabaseHas('places', $data);
+        $this->assertDatabaseHas('services', $data);
     }
 
     public function testUpdateWithSameName()
@@ -210,7 +220,7 @@ class PlaceControllerTest extends TestCase
         $user = $this->createUser();
         $data = $this->getDataUpdateWithSameName($user);
 
-        $this->assertDatabaseMissing('places', $data);
+        $this->assertDatabaseMissing('services', $data);
 
         $response = $this->actingAs($user, 'api')
             ->json('PUT', self::$URL, $data);
@@ -225,7 +235,7 @@ class PlaceControllerTest extends TestCase
                 ]
             ]));
 
-        $this->assertDatabaseMissing('places', $data);
+        $this->assertDatabaseMissing('services', $data);
     }
 
 
@@ -234,7 +244,7 @@ class PlaceControllerTest extends TestCase
         $user = $this->createUser();
         $data = $this->getDataUpdateNotAccess($user);
 
-        $this->assertDatabaseHas('places', $data);
+        $this->assertDatabaseHas('services', $data);
 
         $response = $this->actingAs($user, 'api')
             ->json('PUT', self::$URL, $data);
@@ -243,7 +253,7 @@ class PlaceControllerTest extends TestCase
             ->assertStatus(200)
             ->assertJson($this->getBaseErrorJson([], [AuthorizationException::class]));
 
-        $this->assertDatabaseHas('places', $data);
+        $this->assertDatabaseHas('services', $data);
     }
 
     public function testUpdateNotInstitutionUser()
@@ -251,7 +261,7 @@ class PlaceControllerTest extends TestCase
         $user = $this->createUser();
         $data = $this->getDataUpdateNotInstitutionUser();
 
-        $this->assertDatabaseHas('places', $data);
+        $this->assertDatabaseHas('services', $data);
 
         $response = $this->actingAs($user, 'api')
             ->json('PUT', self::$URL, $data);
@@ -260,15 +270,16 @@ class PlaceControllerTest extends TestCase
             ->assertStatus(200)
             ->assertJson($this->getBaseErrorJson([], [AuthorizationException::class]));
 
-        $this->assertDatabaseHas('places', $data);
+        $this->assertDatabaseHas('services', $data);
     }
+
 
     public function testDelete()
     {
         $user = $this->createUser();
         $data = $this->getDataDelete($user);
 
-        $this->assertDatabaseHas('places', $data);
+        $this->assertDatabaseHas('services', $data);
 
         $response = $this->actingAs($user, 'api')
             ->json('DELETE', self::$URL, $data);
@@ -278,7 +289,7 @@ class PlaceControllerTest extends TestCase
             ->assertJson($this->getBaseSuccessJson())
             ->assertJsonStructure($this->getBaseSuccessStructure());
 
-        $this->assertSoftDeleted('places', $data);
+        $this->assertSoftDeleted('services', $data);
     }
 
     public function testDeleteAdmin()
@@ -286,7 +297,7 @@ class PlaceControllerTest extends TestCase
         $user = $this->createUser();
         $data = $this->getDataDeleteAdmin($user);
 
-        $this->assertDatabaseHas('places', $data);
+        $this->assertDatabaseHas('services', $data);
 
         $response = $this->actingAs($user, 'api')
             ->json('DELETE', self::$URL, $data);
@@ -296,7 +307,7 @@ class PlaceControllerTest extends TestCase
             ->assertJson($this->getBaseSuccessJson())
             ->assertJsonStructure($this->getBaseSuccessStructure());
 
-        $this->assertSoftDeleted('places', $data);
+        $this->assertSoftDeleted('services', $data);
     }
 
     public function testDeleteNotAccess()
@@ -305,7 +316,7 @@ class PlaceControllerTest extends TestCase
         $data = $this->getDataDeleteNotAccess($user);
         $data['deleted_at'] = null;
 
-        $this->assertDatabaseHas('places', $data);
+        $this->assertDatabaseHas('services', $data);
 
         $response = $this->actingAs($user, 'api')
             ->json('DELETE', self::$URL, $data);
@@ -314,7 +325,7 @@ class PlaceControllerTest extends TestCase
             ->assertStatus(200)
             ->assertJson($this->getBaseErrorJson([], [AuthorizationException::class]));
 
-        $this->assertDatabaseHas('places', $data);
+        $this->assertDatabaseHas('services', $data);
     }
 
     public function testDeleteNotInstitutionUser()
@@ -323,7 +334,7 @@ class PlaceControllerTest extends TestCase
         $data = $this->getDataDeleteNotInstitutionUser();
         $data['deleted_at'] = null;
 
-        $this->assertDatabaseHas('places', $data);
+        $this->assertDatabaseHas('services', $data);
 
         $response = $this->actingAs($user, 'api')
             ->json('DELETE', self::$URL, $data);
@@ -332,6 +343,6 @@ class PlaceControllerTest extends TestCase
             ->assertStatus(200)
             ->assertJson($this->getBaseErrorJson([], [AuthorizationException::class]));
 
-        $this->assertDatabaseHas('places', $data);
+        $this->assertDatabaseHas('services', $data);
     }
 }

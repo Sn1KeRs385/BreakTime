@@ -21,6 +21,7 @@ class Controller extends BaseController
      *  @OA\Tag(name="Dadata", description="Поиск субъектов (страна, город и тд)")
      *  @OA\Tag(name="Institutions", description="Заведения")
      *  @OA\Tag(name="Places", description="Посадочные места")
+     *  @OA\Tag(name="Services", description="Товары/услуги")
      */
 
     /**

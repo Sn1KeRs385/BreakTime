@@ -3,12 +3,12 @@
 namespace Tests\Feature\Api\V1\Helpers;
 
 use App\Models\Institution;
-use App\Models\Place;
+use App\Models\Service;
 use App\Models\User;
 use Tests\Feature\BaseHelpers\BaseHelper;
 use Tests\Feature\BaseHelpers\UserHelper;
 
-trait PlaceControllerTestHelper
+trait ServiceControllerTestHelper
 {
     use BaseHelper, UserHelper;
 
@@ -22,6 +22,7 @@ trait PlaceControllerTestHelper
         return [
             'id',
             'name',
+            'price',
         ];
     }
 
@@ -32,7 +33,7 @@ trait PlaceControllerTestHelper
                 $user,
                 $this->getAccessByArray(),
             )
-            ->has(Place::factory()->count(rand(5,10)))
+            ->has(Service::factory()->count(rand(5,10)))
             ->create();
 
         return $institution;
@@ -45,7 +46,7 @@ trait PlaceControllerTestHelper
                 $user,
                 $this->getFullAccessWithExcludes(['is_invite_accept'])
             )
-            ->has(Place::factory()->count(rand(5,10)))
+            ->has(Service::factory()->count(rand(5,10)))
             ->create();
 
         return $institution;
@@ -54,7 +55,7 @@ trait PlaceControllerTestHelper
     protected function allWhenNotInstitutionUser(): Institution {
         $institution = Institution::factory()
             ->withLocation()
-            ->has(Place::factory()->count(rand(5,10)))
+            ->has(Service::factory()->count(rand(5,10)))
             ->create();
 
         return $institution;
@@ -65,16 +66,17 @@ trait PlaceControllerTestHelper
             ->withLocation()
             ->hasAttached(
                 $user,
-                $this->getAccessByArray(['is_can_create_place']),
+                $this->getAccessByArray(['is_can_create_service']),
             )
             ->create();
 
-        $place = Place::factory()
+        $service = Service::factory()
             ->make();
 
         return [
             'institution_id' => $institution->id,
-            'name' => $place->name,
+            'name' => $service->name,
+            'price' => $service->price,
         ];
     }
 
@@ -83,17 +85,18 @@ trait PlaceControllerTestHelper
             ->withLocation()
             ->hasAttached(
                 $user,
-                $this->getAccessByArray(['is_can_create_place']),
+                $this->getAccessByArray(['is_can_create_service']),
             )
             ->create();
 
-        $place = Place::factory()
+        $service = Service::factory()
             ->create(['institution_id' => $institution->id]);
 
         return [
             'institution_id' => $institution->id,
-            'name' => $place->name,
-            'place_id' => $place->id,
+            'name' => $service->name,
+            'price' => $service->price,
+            'service_id' => $service->id,
         ];
     }
 
@@ -106,12 +109,13 @@ trait PlaceControllerTestHelper
             )
             ->create();
 
-        $place = Place::factory()
+        $service = Service::factory()
             ->make();
 
         return [
             'institution_id' => $institution->id,
-            'name' => $place->name,
+            'name' => $service->name,
+            'price' => $service->price,
         ];
     }
 
@@ -120,16 +124,17 @@ trait PlaceControllerTestHelper
             ->withLocation()
             ->hasAttached(
                 $user,
-                $this->getFullAccessWithExcludes(['is_can_create_place'])
+                $this->getFullAccessWithExcludes(['is_can_create_service'])
             )
             ->create();
 
-        $place = Place::factory()
+        $service = Service::factory()
             ->make();
 
         return [
             'institution_id' => $institution->id,
-            'name' => $place->name,
+            'name' => $service->name,
+            'price' => $service->price,
         ];
     }
 
@@ -138,12 +143,13 @@ trait PlaceControllerTestHelper
             ->withLocation()
             ->create();
 
-        $place = Place::factory()
+        $service = Service::factory()
             ->make();
 
         return [
             'institution_id' => $institution->id,
-            'name' => $place->name,
+            'name' => $service->name,
+            'price' => $service->price,
         ];
     }
 
@@ -152,20 +158,21 @@ trait PlaceControllerTestHelper
             ->withLocation()
             ->hasAttached(
                 $user,
-                $this->getAccessByArray(['is_can_update_place']),
+                $this->getAccessByArray(['is_can_update_service']),
             )
-            ->has(Place::factory())
+            ->has(Service::factory())
             ->create();
 
-        $place = $institution->places()
+        $service = $institution->services()
             ->first();
 
-        $newPlace = Place::factory()
+        $newService = Service::factory()
             ->make();
 
         return [
-            'id' => $place->id,
-            'name' => $newPlace->name,
+            'id' => $service->id,
+            'name' => $newService->name,
+            'price' => $newService->price,
         ];
     }
 
@@ -174,17 +181,18 @@ trait PlaceControllerTestHelper
             ->withLocation()
             ->hasAttached(
                 $user,
-                $this->getAccessByArray(['is_can_update_place']),
+                $this->getAccessByArray(['is_can_update_service']),
             )
-            ->has(Place::factory())
+            ->has(Service::factory())
             ->create();
 
-        $place = $institution->places()
+        $service = $institution->services()
             ->first();
 
         return [
-            'id' => $place->id,
-            'name' => $place->name,
+            'id' => $service->id,
+            'name' => $service->name,
+            'price' => $service->price,
         ];
     }
 
@@ -195,18 +203,19 @@ trait PlaceControllerTestHelper
                 $user,
                 $this->getAccessByArray(['is_admin']),
             )
-            ->has(Place::factory())
+            ->has(Service::factory())
             ->create();
 
-        $place = $institution->places()
+        $service = $institution->services()
             ->first();
 
-        $newPlace = Place::factory()
+        $newService = Service::factory()
             ->make();
 
         return [
-            'id' => $place->id,
-            'name' => $newPlace->name,
+            'id' => $service->id,
+            'name' => $newService->name,
+            'price' => $newService->price,
         ];
     }
 
@@ -215,17 +224,18 @@ trait PlaceControllerTestHelper
             ->withLocation()
             ->hasAttached(
                 $user,
-                $this->getAccessByArray(['is_can_update_place']),
+                $this->getAccessByArray(['is_can_update_service']),
             )
-            ->has(Place::factory()->count(2))
+            ->has(Service::factory()->count(2))
             ->create();
 
-        $placeFirst = $institution->places[0];
-        $placeSecond = $institution->places[1];
+        $serviceFirst = $institution->services[0];
+        $serviceSecond = $institution->services[1];
 
         return [
-            'id' => $placeFirst->id,
-            'name' => $placeSecond->name,
+            'id' => $serviceFirst->id,
+            'name' => $serviceSecond->name,
+            'price' => $serviceSecond->price,
         ];
     }
 
@@ -234,50 +244,53 @@ trait PlaceControllerTestHelper
             ->withLocation()
             ->hasAttached(
                 $user,
-                $this->getFullAccessWithExcludes(['is_can_update_place'])
+                $this->getFullAccessWithExcludes(['is_can_update_service'])
             )
-            ->has(Place::factory())
+            ->has(Service::factory())
             ->create();
 
-        $place = $institution->places()
+        $service = $institution->services()
             ->first();
 
         return [
-            'id' => $place->id,
-            'name' => $place->name,
+            'id' => $service->id,
+            'name' => $service->name,
+            'price' => $service->price,
         ];
     }
 
     protected function getDataUpdateNotInstitutionUser(): array {
         $institution = Institution::factory()
             ->withLocation()
-            ->has(Place::factory())
+            ->has(Service::factory())
             ->create();
 
-        $place = $institution->places()
+        $service = $institution->services()
             ->first();
 
         return [
-            'id' => $place->id,
-            'name' => $place->name,
+            'id' => $service->id,
+            'name' => $service->name,
+            'price' => $service->price,
         ];
     }
+
 
     protected function getDataDelete(User $user): array {
         $institution = Institution::factory()
             ->withLocation()
             ->hasAttached(
                 $user,
-                $this->getAccessByArray(['is_can_delete_place']),
+                $this->getAccessByArray(['is_can_delete_service']),
             )
-            ->has(Place::factory())
+            ->has(Service::factory())
             ->create();
 
-        $place = $institution->places()
+        $service = $institution->services()
             ->first();
 
         return [
-            'id' => $place->id,
+            'id' => $service->id,
         ];
     }
 
@@ -288,14 +301,14 @@ trait PlaceControllerTestHelper
                 $user,
                 $this->getAccessByArray(['is_admin']),
             )
-            ->has(Place::factory())
+            ->has(Service::factory())
             ->create();
 
-        $place = $institution->places()
+        $service = $institution->services()
             ->first();
 
         return [
-            'id' => $place->id,
+            'id' => $service->id,
         ];
     }
 
@@ -304,30 +317,30 @@ trait PlaceControllerTestHelper
             ->withLocation()
             ->hasAttached(
                 $user,
-                $this->getFullAccessWithExcludes(['is_can_delete_place'])
+                $this->getFullAccessWithExcludes(['is_can_delete_service'])
             )
-            ->has(Place::factory())
+            ->has(Service::factory())
             ->create();
 
-        $place = $institution->places()
+        $service = $institution->services()
             ->first();
 
         return [
-            'id' => $place->id,
+            'id' => $service->id,
         ];
     }
 
     protected function getDataDeleteNotInstitutionUser(): array {
         $institution = Institution::factory()
             ->withLocation()
-            ->has(Place::factory())
+            ->has(Service::factory())
             ->create();
 
-        $place = $institution->places()
+        $service = $institution->services()
             ->first();
 
         return [
-            'id' => $place->id,
+            'id' => $service->id,
         ];
     }
 }
