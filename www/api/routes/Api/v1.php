@@ -28,5 +28,6 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::group(['prefix' => 'places'], function () {
         Route::get('/', [PlaceController::class, 'all']);
         Route::post('/', [PlaceController::class, 'store']);
+        Route::put('/', [PlaceController::class, 'update']);
     });
 });

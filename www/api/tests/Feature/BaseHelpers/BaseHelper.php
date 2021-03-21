@@ -9,10 +9,10 @@ trait BaseHelper
 {
     use WithFaker;
 
-    protected function getBaseSuccessJson(): array {
+    protected function getBaseSuccessJson(array $data = []): array {
         return [
             'status' => true,
-            'data' => [],
+            'data' => $data,
         ];
     }
 

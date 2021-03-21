@@ -25,7 +25,7 @@ class PlacePolicy extends BasePolicy
 
     public function update(User $user, Place $place)
     {
-        //
+        return $this->checkAccess($user, $place->institution, 'is_can_update_place');
     }
 
     public function delete(User $user, Place $place)

@@ -30,9 +30,7 @@ trait PlaceControllerTestHelper
             ->withLocation()
             ->hasAttached(
                 $user,
-                [
-                    'is_invite_accept' => true,
-                ]
+                $this->getAccessByArray(),
             )
             ->has(Place::factory()->count(rand(5,10)))
             ->create();
@@ -45,9 +43,7 @@ trait PlaceControllerTestHelper
             ->withLocation()
             ->hasAttached(
                 $user,
-                [
-                    'is_invite_accept' => false,
-                ]
+                $this->getFullAccessWithExcludes(['is_invite_accept'])
             )
             ->has(Place::factory()->count(rand(5,10)))
             ->create();
@@ -69,10 +65,7 @@ trait PlaceControllerTestHelper
             ->withLocation()
             ->hasAttached(
                 $user,
-                [
-                    'is_invite_accept' => true,
-                    'is_can_create_place' => true,
-                ]
+                $this->getAccessByArray(['is_can_create_place']),
             )
             ->create();
 
@@ -90,10 +83,7 @@ trait PlaceControllerTestHelper
             ->withLocation()
             ->hasAttached(
                 $user,
-                [
-                    'is_invite_accept' => true,
-                    'is_can_create_place' => true,
-                ]
+                $this->getAccessByArray(['is_can_create_place']),
             )
             ->create();
 
@@ -112,10 +102,7 @@ trait PlaceControllerTestHelper
             ->withLocation()
             ->hasAttached(
                 $user,
-                [
-                    'is_invite_accept' => true,
-                    'is_admin' => true,
-                ]
+                $this->getAccessByArray(['is_admin']),
             )
             ->create();
 
@@ -133,9 +120,7 @@ trait PlaceControllerTestHelper
             ->withLocation()
             ->hasAttached(
                 $user,
-                [
-                    'is_invite_accept' => true,
-                ]
+                $this->getFullAccessWithExcludes(['is_can_create_place'])
             )
             ->create();
 
@@ -158,6 +143,122 @@ trait PlaceControllerTestHelper
 
         return [
             'institution_id' => $institution->id,
+            'name' => $place->name,
+        ];
+    }
+
+    protected function getDataUpdate(User $user): array {
+        $institution = Institution::factory()
+            ->withLocation()
+            ->hasAttached(
+                $user,
+                $this->getAccessByArray(['is_can_update_place']),
+            )
+            ->has(Place::factory())
+            ->create();
+
+        $place = $institution->places()
+            ->first();
+
+        $newPlace = Place::factory()
+            ->make();
+
+        return [
+            'id' => $place->id,
+            'name' => $newPlace->name,
+        ];
+    }
+
+    protected function getDataUpdateWithoutChange(User $user): array {
+        $institution = Institution::factory()
+            ->withLocation()
+            ->hasAttached(
+                $user,
+                $this->getAccessByArray(['is_can_update_place']),
+            )
+            ->has(Place::factory())
+            ->create();
+
+        $place = $institution->places()
+            ->first();
+
+        return [
+            'id' => $place->id,
+            'name' => $place->name,
+        ];
+    }
+
+    protected function getDataUpdateAdmin(User $user): array {
+        $institution = Institution::factory()
+            ->withLocation()
+            ->hasAttached(
+                $user,
+                $this->getAccessByArray(['is_admin']),
+            )
+            ->has(Place::factory())
+            ->create();
+
+        $place = $institution->places()
+            ->first();
+
+        $newPlace = Place::factory()
+            ->make();
+
+        return [
+            'id' => $place->id,
+            'name' => $newPlace->name,
+        ];
+    }
+
+    protected function getDataUpdateWithSameName(User $user): array {
+        $institution = Institution::factory()
+            ->withLocation()
+            ->hasAttached(
+                $user,
+                $this->getAccessByArray(['is_can_update_place']),
+            )
+            ->has(Place::factory()->count(2))
+            ->create();
+
+        $placeFirst = $institution->places[0];
+        $placeSecond = $institution->places[1];
+
+        return [
+            'id' => $placeFirst->id,
+            'name' => $placeSecond->name,
+        ];
+    }
+
+    protected function getDataUpdateNotAccess(User $user): array {
+        $institution = Institution::factory()
+            ->withLocation()
+            ->hasAttached(
+                $user,
+                $this->getFullAccessWithExcludes(['is_can_update_place'])
+            )
+            ->has(Place::factory())
+            ->create();
+
+        $place = $institution->places()
+            ->first();
+
+        return [
+            'id' => $place->id,
+            'name' => $place->name,
+        ];
+    }
+
+    protected function getDataUpdateNotInstitutionUser(): array {
+        $institution = Institution::factory()
+            ->withLocation()
+            ->has(Place::factory())
+            ->create();
+
+        $place = $institution->places()
+            ->first();
+
+        return [
+            'id' => $place->id,
             'name' => $place->name,
         ];
     }

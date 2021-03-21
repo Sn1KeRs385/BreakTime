@@ -7,11 +7,13 @@ use App\Helpers\JSON;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Place\AllRequest;
 use App\Http\Requests\Api\V1\Place\StoreRequest;
+use App\Http\Requests\Api\V1\Place\UpdateRequest;
 use App\Http\Resources\Api\V1\Place\BaseResource;
 use App\Models\Institution;
 use App\Models\Place;
 use App\Repositories\Api\V1\PlaceRepository;
 use App\Services\Api\V1\PlaceService;
+use Illuminate\Support\Arr;
 
 class PlaceController extends Controller
 {
@@ -53,7 +55,7 @@ class PlaceController extends Controller
      *  @OA\Post(
      *      path="/v1/places",
      *      operationId="V1PlaceControllerStore",
-     *      summary="Создание нового заведения",
+     *      summary="Создание нового посадочного места",
      *      tags={"Places"},
      *      security={{"api_auth":{}}},
      *      @OA\RequestBody(required=true, @OA\JsonContent(ref="#/components/schemas/ApiV1PlaceStoreRequest")),
@@ -71,6 +73,32 @@ class PlaceController extends Controller
 
         $place = $institution->places()
             ->firstOrCreate(['name' => $data['name']]);
+
+        return JSON::getJson(BaseResource::make($place));
+    }
+
+
+    /**
+     *  @OA\Put(
+     *      path="/v1/places",
+     *      operationId="V1PlaceControllerUpdate",
+     *      summary="Изменение существующего посадочного места",
+     *      tags={"Places"},
+     *      security={{"api_auth":{}}},
+     *      @OA\RequestBody(required=true, @OA\JsonContent(ref="#/components/schemas/ApiV1PlaceUpdateRequest")),
+     *
+     *      @OA\Response(response=200, description="Ответ", @OA\JsonContent(ref="#/components/schemas/ApiV1PlaceBaseResource")),
+     *  )
+     */
+    public function update(UpdateRequest $request)
+    {
+        $data = $request->validated();
+
+        $place = Place::find($data['id']);
+
+        $this->authorize('update', $place);
+
+        $place->update(Arr::only($data, ['name']));
 
         return JSON::getJson(BaseResource::make($place));
     }
