@@ -7,6 +7,7 @@ use App\Models\Access;
 use App\Models\InstitutionUser;
 use App\Models\Location;
 use App\Models\Place;
+use App\Models\Service;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -32,5 +33,9 @@ trait InstitutionRelations
 
     public function places(): HasMany {
         return $this->hasMany(Place::class);
+    }
+
+    public function services(): HasMany {
+        return $this->hasMany(Service::class);
     }
 }

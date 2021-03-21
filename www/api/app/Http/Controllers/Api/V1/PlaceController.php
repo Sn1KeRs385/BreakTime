@@ -11,23 +11,10 @@ use App\Http\Requests\Api\V1\Place\UpdateRequest;
 use App\Http\Resources\Api\V1\Place\BaseResource;
 use App\Models\Institution;
 use App\Models\Place;
-use App\Repositories\Api\V1\PlaceRepository;
-use App\Services\Api\V1\PlaceService;
 use Illuminate\Support\Arr;
 
 class PlaceController extends Controller
 {
-    protected PlaceRepository $placeRepository;
-    protected PlaceService $placeService;
-
-    public function __construct(
-        PlaceRepository $placeRepository,
-        PlaceService $placeService
-    ) {
-        $this->placeRepository = $placeRepository;
-        $this->placeService = $placeService;
-    }
-
     /**
      *  @OA\Get(
      *      path="/v1/places",
@@ -94,7 +81,8 @@ class PlaceController extends Controller
     {
         $data = $request->validated();
 
-        $place = Place::find($data['id']);
+        $place = Place::with(['institution'])
+            ->find($data['id']);
 
         $this->authorize('update', $place);
 

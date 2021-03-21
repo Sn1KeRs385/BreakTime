@@ -12,7 +12,7 @@ use Illuminate\Validation\Rule;
  *      type="object",
  *      required={"id", "name"},
  *      @OA\Property (property="id", example=1, type="integer", description="Идентификатор посадочного места"),
- *      @OA\Property (property="name", type="string", maxLength=255, description="Новое название заведения", example="Стол 41"),
+ *      @OA\Property (property="name", type="string", maxLength=255, description="Новое название места", example="Стол 41"),
  *  )
  */
 class UpdateRequest extends FormRequest
