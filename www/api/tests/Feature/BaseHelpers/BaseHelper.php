@@ -9,19 +9,20 @@ trait BaseHelper
 {
     use WithFaker;
 
-    protected function getBaseSuccessJson(): array {
+    protected function getBaseSuccessJson(array $data = []): array {
         return [
             'status' => true,
-            'data' => [],
+            'data' => $data,
         ];
     }
 
     protected function getBaseErrorJson(array $errors = [], array $exceptions = []): array {
-        $handler = app(Handler::class);
-        foreach($exceptions as $exception){
-            $errors = array_merge($errors, $handler->render(null, app($exception), true)['errors']);
+        if(!empty($exceptions)) {
+            $handler = app(Handler::class);
+            foreach ($exceptions as $exception) {
+                $errors = array_merge($errors, $handler->render(null, app($exception), true)['errors']);
+            }
         }
-
         return [
             'status' => false,
             'data' => [],

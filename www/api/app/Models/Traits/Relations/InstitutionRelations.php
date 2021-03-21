@@ -6,6 +6,7 @@ namespace App\Models\Traits\Relations;
 use App\Models\Access;
 use App\Models\InstitutionUser;
 use App\Models\Location;
+use App\Models\Place;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -27,5 +28,9 @@ trait InstitutionRelations
 
     public function accesses(): HasMany {
         return $this->hasMany(Access::class);
+    }
+
+    public function places(): HasMany {
+        return $this->hasMany(Place::class);
     }
 }

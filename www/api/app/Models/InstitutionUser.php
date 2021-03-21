@@ -30,24 +30,17 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  */
 class InstitutionUser extends Pivot
 {
-//    use HasCompositePrimaryKey;
     use InstitutionUserRelations;
 
     public $timestamps = false;
-//    protected $keyType = 'array';
-//    protected $primaryKey = ['institution_id', 'user_id'];
-
-    protected $casts = [
-        'is_invite_accept'   => 'boolean',
-        'is_admin'           => 'boolean',
-        'is_can_change_info' => 'boolean',
-    ];
-
     protected $fillable = [
         'institution_id',
         'user_id',
         'is_invite_accept',
         'is_admin',
-        'can_change_info',
+        'is_can_change_info',
+        'is_can_create_place',
+        'is_can_update_place',
+        'is_can_delete_place',
     ];
 }

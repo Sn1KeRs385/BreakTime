@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\InstitutionController;
+use App\Http\Controllers\Api\V1\PlaceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,5 +24,10 @@ Route::group(['middleware' => 'can_auth:api'], function() {
 Route::group(['middleware' => 'auth:api'], function() {
     Route::group(['prefix' => 'institutions'], function () {
         Route::post('/', [InstitutionController::class, 'store']);
+    });
+    Route::group(['prefix' => 'places'], function () {
+        Route::get('/', [PlaceController::class, 'all']);
+        Route::post('/', [PlaceController::class, 'store']);
+        Route::put('/', [PlaceController::class, 'update']);
     });
 });
