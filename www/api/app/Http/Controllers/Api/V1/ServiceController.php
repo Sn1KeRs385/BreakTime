@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Helpers\JSON;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Service\AllRequest;
+use App\Http\Requests\Api\V1\Service\DeleteRequest;
 use App\Http\Requests\Api\V1\Service\StoreRequest;
 use App\Http\Requests\Api\V1\Service\UpdateRequest;
 use App\Http\Resources\Api\V1\Service\BaseResource;
@@ -93,5 +94,31 @@ class ServiceController extends Controller
         $service->update(Arr::only($data, ['name', 'price']));
 
         return JSON::getJson(BaseResource::make($service));
+    }
+
+    /**
+     *  @OA\Delete (
+     *      path="/v1/places",
+     *      operationId="V1PlaceControllerDelete",
+     *      summary="Удаление существующего посадочного места",
+     *      tags={"Places"},
+     *      security={{"api_auth":{}}},
+     *      @OA\RequestBody(required=true, @OA\JsonContent(ref="#/components/schemas/ApiV1ServiceDeleteRequest")),
+     *
+     *      @OA\Response(response=200, description="Ответ", @OA\JsonContent()),
+     *  )
+     */
+    public function delete(DeleteRequest $request)
+    {
+        $data = $request->validated();
+
+        $place = Service::with(['institution'])
+            ->find($data['id']);
+
+        $this->authorize('delete', $place);
+
+        $place->delete();
+
+        return JSON::getJson();
     }
 }

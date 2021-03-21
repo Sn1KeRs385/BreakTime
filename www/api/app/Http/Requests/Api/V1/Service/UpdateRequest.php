@@ -10,7 +10,7 @@ use Illuminate\Validation\Rule;
  *  @OA\Schema(schema="ApiV1ServiceUpdateRequest",
  *      description="Товары/услуги - редактирование",
  *      type="object",
- *      required={"id", "name"},
+ *      required={"id", "name", "price"},
  *      @OA\Property (property="id", example=1, type="integer", description="Идентификатор товара/услуги"),
  *      @OA\Property (property="name", type="string", maxLength=255, description="Новое название товара/услуги", example="Запеканка"),
  *      @OA\Property (property="price", type="double", minimum=0, description="Стоимость", example=200.50),

@@ -30,7 +30,7 @@ class ServicePolicy extends BasePolicy
 
     public function delete(User $user, Service $service)
     {
-        //
+        return $this->checkAccess($user, $service->institution, 'is_can_delete_service');
     }
 
     public function restore(User $user, Service $service)

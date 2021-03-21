@@ -274,4 +274,73 @@ trait ServiceControllerTestHelper
             'price' => $service->price,
         ];
     }
+
+
+    protected function getDataDelete(User $user): array {
+        $institution = Institution::factory()
+            ->withLocation()
+            ->hasAttached(
+                $user,
+                $this->getAccessByArray(['is_can_delete_service']),
+            )
+            ->has(Service::factory())
+            ->create();
+
+        $service = $institution->services()
+            ->first();
+
+        return [
+            'id' => $service->id,
+        ];
+    }
+
+    protected function getDataDeleteAdmin(User $user): array {
+        $institution = Institution::factory()
+            ->withLocation()
+            ->hasAttached(
+                $user,
+                $this->getAccessByArray(['is_admin']),
+            )
+            ->has(Service::factory())
+            ->create();
+
+        $service = $institution->services()
+            ->first();
+
+        return [
+            'id' => $service->id,
+        ];
+    }
+
+    protected function getDataDeleteNotAccess(User $user): array {
+        $institution = Institution::factory()
+            ->withLocation()
+            ->hasAttached(
+                $user,
+                $this->getFullAccessWithExcludes(['is_can_delete_service'])
+            )
+            ->has(Service::factory())
+            ->create();
+
+        $service = $institution->services()
+            ->first();
+
+        return [
+            'id' => $service->id,
+        ];
+    }
+
+    protected function getDataDeleteNotInstitutionUser(): array {
+        $institution = Institution::factory()
+            ->withLocation()
+            ->has(Service::factory())
+            ->create();
+
+        $service = $institution->services()
+            ->first();
+
+        return [
+            'id' => $service->id,
+        ];
+    }
 }

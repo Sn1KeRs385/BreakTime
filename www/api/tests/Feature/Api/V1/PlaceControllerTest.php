@@ -262,4 +262,76 @@ class PlaceControllerTest extends TestCase
 
         $this->assertDatabaseHas('places', $data);
     }
+
+    public function testDelete()
+    {
+        $user = $this->createUser();
+        $data = $this->getDataDelete($user);
+
+        $this->assertDatabaseHas('places', $data);
+
+        $response = $this->actingAs($user, 'api')
+            ->json('DELETE', self::$URL, $data);
+
+        $response
+            ->assertStatus(200)
+            ->assertJson($this->getBaseSuccessJson())
+            ->assertJsonStructure($this->getBaseSuccessStructure());
+
+        $this->assertSoftDeleted('places', $data);
+    }
+
+    public function testDeleteAdmin()
+    {
+        $user = $this->createUser();
+        $data = $this->getDataDeleteAdmin($user);
+
+        $this->assertDatabaseHas('places', $data);
+
+        $response = $this->actingAs($user, 'api')
+            ->json('DELETE', self::$URL, $data);
+
+        $response
+            ->assertStatus(200)
+            ->assertJson($this->getBaseSuccessJson())
+            ->assertJsonStructure($this->getBaseSuccessStructure());
+
+        $this->assertSoftDeleted('places', $data);
+    }
+
+    public function testDeleteNotAccess()
+    {
+        $user = $this->createUser();
+        $data = $this->getDataDeleteNotAccess($user);
+        $data['deleted_at'] = null;
+
+        $this->assertDatabaseHas('places', $data);
+
+        $response = $this->actingAs($user, 'api')
+            ->json('DELETE', self::$URL, $data);
+
+        $response
+            ->assertStatus(200)
+            ->assertJson($this->getBaseErrorJson([], [AuthorizationException::class]));
+
+        $this->assertDatabaseHas('places', $data);
+    }
+
+    public function testDeleteNotInstitutionUser()
+    {
+        $user = $this->createUser();
+        $data = $this->getDataDeleteNotInstitutionUser();
+        $data['deleted_at'] = null;
+
+        $this->assertDatabaseHas('places', $data);
+
+        $response = $this->actingAs($user, 'api')
+            ->json('DELETE', self::$URL, $data);
+
+        $response
+            ->assertStatus(200)
+            ->assertJson($this->getBaseErrorJson([], [AuthorizationException::class]));
+
+        $this->assertDatabaseHas('places', $data);
+    }
 }

@@ -30,10 +30,12 @@ Route::group(['middleware' => 'auth:api'], function() {
         Route::get('/', [PlaceController::class, 'all']);
         Route::post('/', [PlaceController::class, 'store']);
         Route::put('/', [PlaceController::class, 'update']);
+        Route::delete('/', [PlaceController::class, 'delete']);
     });
     Route::group(['prefix' => 'services'], function () {
         Route::get('/', [ServiceController::class, 'all']);
         Route::post('/', [ServiceController::class, 'store']);
         Route::put('/', [ServiceController::class, 'update']);
+        Route::delete('/', [ServiceController::class, 'delete']);
     });
 });

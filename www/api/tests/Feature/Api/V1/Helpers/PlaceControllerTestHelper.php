@@ -262,4 +262,72 @@ trait PlaceControllerTestHelper
             'name' => $place->name,
         ];
     }
+
+    protected function getDataDelete(User $user): array {
+        $institution = Institution::factory()
+            ->withLocation()
+            ->hasAttached(
+                $user,
+                $this->getAccessByArray(['is_can_delete_place']),
+            )
+            ->has(Place::factory())
+            ->create();
+
+        $place = $institution->places()
+            ->first();
+
+        return [
+            'id' => $place->id,
+        ];
+    }
+
+    protected function getDataDeleteAdmin(User $user): array {
+        $institution = Institution::factory()
+            ->withLocation()
+            ->hasAttached(
+                $user,
+                $this->getAccessByArray(['is_admin']),
+            )
+            ->has(Place::factory())
+            ->create();
+
+        $place = $institution->places()
+            ->first();
+
+        return [
+            'id' => $place->id,
+        ];
+    }
+
+    protected function getDataDeleteNotAccess(User $user): array {
+        $institution = Institution::factory()
+            ->withLocation()
+            ->hasAttached(
+                $user,
+                $this->getFullAccessWithExcludes(['is_can_delete_place'])
+            )
+            ->has(Place::factory())
+            ->create();
+
+        $place = $institution->places()
+            ->first();
+
+        return [
+            'id' => $place->id,
+        ];
+    }
+
+    protected function getDataDeleteNotInstitutionUser(): array {
+        $institution = Institution::factory()
+            ->withLocation()
+            ->has(Place::factory())
+            ->create();
+
+        $place = $institution->places()
+            ->first();
+
+        return [
+            'id' => $place->id,
+        ];
+    }
 }

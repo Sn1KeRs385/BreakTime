@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Helpers\JSON;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Place\AllRequest;
+use App\Http\Requests\Api\V1\Place\DeleteRequest;
 use App\Http\Requests\Api\V1\Place\StoreRequest;
 use App\Http\Requests\Api\V1\Place\UpdateRequest;
 use App\Http\Resources\Api\V1\Place\BaseResource;
@@ -64,7 +65,6 @@ class PlaceController extends Controller
         return JSON::getJson(BaseResource::make($place));
     }
 
-
     /**
      *  @OA\Put(
      *      path="/v1/places",
@@ -89,5 +89,31 @@ class PlaceController extends Controller
         $place->update(Arr::only($data, ['name']));
 
         return JSON::getJson(BaseResource::make($place));
+    }
+
+    /**
+     *  @OA\Delete (
+     *      path="/v1/places",
+     *      operationId="V1PlaceControllerDelete",
+     *      summary="Удаление существующего посадочного места",
+     *      tags={"Places"},
+     *      security={{"api_auth":{}}},
+     *      @OA\RequestBody(required=true, @OA\JsonContent(ref="#/components/schemas/ApiV1PlaceDeleteRequest")),
+     *
+     *      @OA\Response(response=200, description="Ответ", @OA\JsonContent()),
+     *  )
+     */
+    public function delete(DeleteRequest $request)
+    {
+        $data = $request->validated();
+
+        $place = Place::with(['institution'])
+            ->find($data['id']);
+
+        $this->authorize('delete', $place);
+
+        $place->delete();
+
+        return JSON::getJson();
     }
 }
