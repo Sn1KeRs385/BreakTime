@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\InstitutionController;
 use App\Http\Controllers\Api\V1\PlaceController;
 use App\Http\Controllers\Api\V1\ServiceController;
+use App\Http\Controllers\Api\V1\TariffController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,5 +38,11 @@ Route::group(['middleware' => 'auth:api'], function() {
         Route::post('/', [ServiceController::class, 'store']);
         Route::put('/', [ServiceController::class, 'update']);
         Route::delete('/', [ServiceController::class, 'delete']);
+    });
+    Route::group(['prefix' => 'tariffs'], function () {
+        Route::get('/', [TariffController::class, 'all']);
+        Route::post('/', [TariffController::class, 'store']);
+        Route::put('/', [TariffController::class, 'update']);
+        Route::delete('/', [TariffController::class, 'delete']);
     });
 });

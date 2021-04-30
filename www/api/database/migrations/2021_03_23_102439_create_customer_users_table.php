@@ -43,7 +43,7 @@ class CreateCustomerUsersTable extends Migration
                 ->on('users');
             $table->foreign('tariff_id')
                 ->references('id')
-                ->on('tariff');
+                ->on('tariffs');
         });
     }
 

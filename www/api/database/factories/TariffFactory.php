@@ -57,7 +57,7 @@ class TariffFactory extends Factory
                         'minute_from' => $minuteFrom,
                         'minute_to' => $minuteTo,
                     ]);
-                $minuteFrom = $minuteTo;
+                $minuteFrom = $minuteTo + 1;
             }
         });
     }
