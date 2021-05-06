@@ -112,12 +112,12 @@ class ServiceController extends Controller
     {
         $data = $request->validated();
 
-        $place = Service::with(['institution'])
+        $service = Service::with(['institution'])
             ->find($data['id']);
 
-        $this->authorize('delete', $place);
+        $this->authorize('delete', $service);
 
-        $place->delete();
+        $service->delete();
 
         return JSON::getJson();
     }

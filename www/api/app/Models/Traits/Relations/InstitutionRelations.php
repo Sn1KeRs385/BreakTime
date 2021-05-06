@@ -8,6 +8,7 @@ use App\Models\InstitutionUser;
 use App\Models\Location;
 use App\Models\Place;
 use App\Models\Service;
+use App\Models\Tariff;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -37,5 +38,9 @@ trait InstitutionRelations
 
     public function services(): HasMany {
         return $this->hasMany(Service::class);
+    }
+
+    public function tariffs(): HasMany {
+        return $this->hasMany(Tariff::class);
     }
 }
