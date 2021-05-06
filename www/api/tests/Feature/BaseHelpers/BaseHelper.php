@@ -2,18 +2,31 @@
 
 namespace Tests\Feature\BaseHelpers;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Exceptions\Handler;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
 trait BaseHelper
 {
     use WithFaker;
 
-    protected function getBaseSuccessJson(): array {
+    protected function getBaseSuccessJson(array $data = []): array {
         return [
             'status' => true,
+            'data' => $data,
+        ];
+    }
+
+    protected function getBaseErrorJson(array $errors = [], array $exceptions = []): array {
+        if(!empty($exceptions)) {
+            $handler = app(Handler::class);
+            foreach ($exceptions as $exception) {
+                $errors = array_merge($errors, $handler->render(null, app($exception), true)['errors']);
+            }
+        }
+        return [
+            'status' => false,
             'data' => [],
+            'errors' => $errors
         ];
     }
 
@@ -21,6 +34,17 @@ trait BaseHelper
         return [
             'status',
             'data' => $data,
+        ];
+    }
+
+    protected function getIndexMetaStructure(): array {
+        return [
+            'meta' => [
+                'current_page',
+                'last_page',
+                'per_page',
+                'total',
+            ]
         ];
     }
 }

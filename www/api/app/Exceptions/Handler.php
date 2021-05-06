@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use App\Helpers\JSON;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Response;
@@ -43,9 +44,9 @@ class Handler extends ExceptionHandler
         });
     }
 
-    public function render($request, Throwable $e)
+    public function render($request, Throwable $e, bool $callFromTests = false)
     {
-        if($request->acceptsHtml()){
+        if(!$callFromTests && $request->acceptsHtml()){
             return parent::render($request, $e);
         }
 
@@ -61,6 +62,15 @@ class Handler extends ExceptionHandler
         }
 
         if($e instanceof AuthenticationException){
+            $error = [
+                'code' => 401,
+                'message' => 'AUTHENTICATION_EXCEPTION',
+                'description' => __('auth.errors.AUTHENTICATION_EXCEPTION'),
+            ];
+            $response = JSON::getJson([], [$error]);
+        }
+
+        if($e instanceof AuthorizationException){
             $error = [
                 'code' => 403,
                 'message' => 'AUTHORIZATION_EXCEPTION',
@@ -115,6 +125,9 @@ class Handler extends ExceptionHandler
             ]);
         }
 
+        if($callFromTests){
+            return $response;
+        }
         return Response::json($response);
     }
 }

@@ -20,7 +20,8 @@ return [
 
     'errors' => [
         'WRONG_CREDENTIAL' => 'Неверное имя пользователя или пароль.',
-        'AUTHORIZATION_EXCEPTION' => 'Вы не авторизованы.'
+        'AUTHENTICATION_EXCEPTION' => 'Вы не авторизованы.',
+        'AUTHORIZATION_EXCEPTION' => 'У вас недостаточно прав.'
     ]
 
 ];

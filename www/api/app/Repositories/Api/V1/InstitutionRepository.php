@@ -9,10 +9,10 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class InstitutionRepository
 {
-    public function index(int $perPage, bool $onlyMy, array $filters, User $user): LengthAwarePaginator
+    public function index(int $perPage, bool $onlyMy, array $filters, ?User $user): LengthAwarePaginator
     {
         $institutions = Institution::query()
-            ->when($onlyMy, function($query) use($user){
+            ->when($onlyMy && $user, function($query) use($user){
                 $query->whereHas('institutionUsers', function($query) use($user){
                     $query->whereUserId($user->id);
                 });

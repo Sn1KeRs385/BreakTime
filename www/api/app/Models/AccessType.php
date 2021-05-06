@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Relations\AccessTypeRelations;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class AccessType
@@ -23,7 +23,5 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class AccessType extends Model
 {
-    public function accesses(): HasMany {
-        return $this->hasMany(Access::class);
-    }
+    use AccessTypeRelations;
 }

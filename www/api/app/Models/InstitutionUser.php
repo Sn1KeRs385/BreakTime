@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Relations\InstitutionUserRelations;
 use App\Traits\Models\HasCompositePrimaryKey;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
@@ -31,31 +30,17 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  */
 class InstitutionUser extends Pivot
 {
-    use HasCompositePrimaryKey;
+    use InstitutionUserRelations;
 
     public $timestamps = false;
-    protected $keyType = 'array';
-    protected $primaryKey = ['institution_id', 'user_id'];
-
-    public function institution(): BelongsTo {
-        return $this->belongsTo(Institution::class);
-    }
-
-    public function user(): BelongsTo {
-        return $this->belongsTo(User::class);
-    }
-
-    protected $casts = [
-        'is_invite_accept'   => 'boolean',
-        'is_admin'           => 'boolean',
-        'is_can_change_info' => 'boolean',
-    ];
-
     protected $fillable = [
         'institution_id',
         'user_id',
         'is_invite_accept',
         'is_admin',
-        'can_change_info',
+        'is_can_change_info',
+        'is_can_create_place',
+        'is_can_update_place',
+        'is_can_delete_place',
     ];
 }

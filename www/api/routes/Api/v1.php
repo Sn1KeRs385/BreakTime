@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\InstitutionController;
+use App\Http\Controllers\Api\V1\PlaceController;
+use App\Http\Controllers\Api\V1\ServiceController;
+use App\Http\Controllers\Api\V1\TariffController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +17,32 @@ use App\Http\Controllers\Api\V1\InstitutionController;
 |
 */
 
-Route::group(['middleware' => 'auth:api'], function() {
+Route::group(['middleware' => 'can_auth:api'], function() {
     Route::group(['prefix' => 'institutions'], function () {
         Route::get('/', [InstitutionController::class, 'index']);
+    });
+});
+
+Route::group(['middleware' => 'auth:api'], function() {
+    Route::group(['prefix' => 'institutions'], function () {
         Route::post('/', [InstitutionController::class, 'store']);
+    });
+    Route::group(['prefix' => 'places'], function () {
+        Route::get('/', [PlaceController::class, 'all']);
+        Route::post('/', [PlaceController::class, 'store']);
+        Route::put('/', [PlaceController::class, 'update']);
+        Route::delete('/', [PlaceController::class, 'delete']);
+    });
+    Route::group(['prefix' => 'services'], function () {
+        Route::get('/', [ServiceController::class, 'all']);
+        Route::post('/', [ServiceController::class, 'store']);
+        Route::put('/', [ServiceController::class, 'update']);
+        Route::delete('/', [ServiceController::class, 'delete']);
+    });
+    Route::group(['prefix' => 'tariffs'], function () {
+        Route::get('/', [TariffController::class, 'all']);
+        Route::post('/', [TariffController::class, 'store']);
+        Route::put('/', [TariffController::class, 'update']);
+        Route::delete('/', [TariffController::class, 'delete']);
     });
 });
