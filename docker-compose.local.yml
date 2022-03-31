@@ -3,7 +3,7 @@
   services:
 
 #    laravel:
-#      container_name: cafetime_api
+#      container_name: breaktime_api
 #      image: php:8.0.0RC5-fpm-alpine3.12
 #      restart: always
 #      working_dir: ${LARAVEL_PATH_CONTAINER}
@@ -14,32 +14,23 @@
 #        - redisdb
 
     postgresdb:
-      container_name: cafetime_postgresdb
-      image: postgres:9.6.20
+      container_name: breaktime_postgresdb
+      image: postgres:14.2
       restart: always
       ports:
-        - 127.0.0.1:5432:5432
+        - "127.0.0.1:5432:5432"
       environment:
         - POSTGRES_DB=cafetime
         - POSTGRES_USER=cafetime
         - POSTGRES_PASSWORD=pass
       volumes:
-        - ./postgresql-data:/var/lib/postgresql/data
+        - ./.docker/postgresql-data:/var/lib/postgresql/data
 
     redisdb:
-      container_name: cafetime_redisdb
-      image: redis:6.0.9
+      container_name: breaktime_redisdb
+      image: redis:6.2.6
       restart: always
       ports:
-        - 127.0.0.1:6379:6379
+        - "127.0.0.1:6379:6379"
       volumes:
-        - ./redis-data:/data
-
-    adminer:
-      container_name: cafetime_adminer
-      image: adminer:4.7.7
-      restart: always
-      ports:
-        - 8080:8080
-      depends_on:
-        - postgresdb
+        - ./.docker/redis-data:/data
