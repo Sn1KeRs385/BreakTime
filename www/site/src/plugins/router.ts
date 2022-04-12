@@ -1,18 +1,20 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-// 1. Define route components.
-// These can be imported from other files
-import IndexPage from '@/pages/index.vue'
 
-// 2. Define some routes
-// Each route should map to a component.
-// We'll talk about nested routes later.
-const routes = [{ path: '/', component: IndexPage }]
+export const LAYOUTS = {
+  MAIN_LAYOUT: 'MainLayout',
+  DEFAULT_LAYOUT: 'DefaultLayout',
+}
 
-// 3. Create the router instance and pass the `routes` option
-// You can pass in additional options here, but let's
-// keep it simple for now.
+const routes = [
+  {
+    path: '/',
+    name: 'index',
+    meta: { layout: LAYOUTS.MAIN_LAYOUT },
+    component: () => import('@/pages/index.vue'),
+  },
+]
+
 export default createRouter({
-  // 4. Provide the history implementation to use. We are using the hash history for simplicity here.
   history: createWebHashHistory(),
-  routes, // short for `routes: routes`
+  routes,
 })
