@@ -43,8 +43,8 @@ export default class Login extends Vue {
   showPassword = false
 
   rules = {
-    required: value => !!value || 'Required.',
-    min: v => v.length >= 8 || 'Min 8 characters',
+    required: (value) => !!value || 'Required.',
+    min: (v) => v.length >= 8 || 'Min 8 characters',
   }
 
   submit() {}

@@ -51,12 +51,8 @@
               <PopoverPanel
                 class="absolute z-10 -ml-4 mt-3 transform px-2 w-screen max-w-md sm:px-0 lg:ml-0 lg:left-1/2 lg:-translate-x-1/2"
               >
-                <div
-                  class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden"
-                >
-                  <div
-                    class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8"
-                  >
+                <div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
+                  <div class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
                     <a
                       v-for="item in solutions"
                       :key="item.name"
@@ -81,11 +77,7 @@
                   <div
                     class="px-5 py-5 bg-gray-50 space-y-6 sm:flex sm:space-y-0 sm:space-x-10 sm:px-8"
                   >
-                    <div
-                      v-for="item in callsToAction"
-                      :key="item.name"
-                      class="flow-root"
-                    >
+                    <div v-for="item in callsToAction" :key="item.name" class="flow-root">
                       <a
                         :href="item.href"
                         class="-m-3 p-3 flex items-center rounded-md text-base font-medium text-gray-900 hover:bg-gray-100"
@@ -104,18 +96,8 @@
             </transition>
           </Popover>
 
-          <a
-            href="#"
-            class="text-base font-medium text-gray-500 hover:text-gray-900"
-          >
-            Pricing
-          </a>
-          <a
-            href="#"
-            class="text-base font-medium text-gray-500 hover:text-gray-900"
-          >
-            Docs
-          </a>
+          <a href="#" class="text-base font-medium text-gray-500 hover:text-gray-900">Pricing</a>
+          <a href="#" class="text-base font-medium text-gray-500 hover:text-gray-900">Docs</a>
 
           <Popover v-slot="{ open }" class="relative">
             <PopoverButton
@@ -145,12 +127,8 @@
               <PopoverPanel
                 class="absolute z-10 left-1/2 transform -translate-x-1/2 mt-3 px-2 w-screen max-w-md sm:px-0"
               >
-                <div
-                  class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden"
-                >
-                  <div
-                    class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8"
-                  >
+                <div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
+                  <div class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
                     <a
                       v-for="item in resources"
                       :key="item.name"
@@ -174,17 +152,11 @@
                   </div>
                   <div class="px-5 py-5 bg-gray-50 sm:px-8 sm:py-8">
                     <div>
-                      <h3
-                        class="text-sm tracking-wide font-medium text-gray-500 uppercase"
-                      >
+                      <h3 class="text-sm tracking-wide font-medium text-gray-500 uppercase">
                         Recent Posts
                       </h3>
                       <ul role="list" class="mt-4 space-y-4">
-                        <li
-                          v-for="post in recentPosts"
-                          :key="post.id"
-                          class="text-base truncate"
-                        >
+                        <li v-for="post in recentPosts" :key="post.id" class="text-base truncate">
                           <a
                             :href="post.href"
                             class="font-medium text-gray-900 hover:text-gray-700"
@@ -195,10 +167,7 @@
                       </ul>
                     </div>
                     <div class="mt-5 text-sm">
-                      <a
-                        href="#"
-                        class="font-medium text-indigo-600 hover:text-indigo-500"
-                      >
+                      <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
                         View all posts
                         <span aria-hidden="true">&rarr;</span>
                       </a>
@@ -282,19 +251,11 @@
           </div>
           <div class="py-6 px-5 space-y-6">
             <div class="grid grid-cols-2 gap-y-4 gap-x-8">
-              <a
-                href="#"
-                class="text-base font-medium text-gray-900 hover:text-gray-700"
-              >
+              <a href="#" class="text-base font-medium text-gray-900 hover:text-gray-700">
                 Pricing
               </a>
 
-              <a
-                href="#"
-                class="text-base font-medium text-gray-900 hover:text-gray-700"
-              >
-                Docs
-              </a>
+              <a href="#" class="text-base font-medium text-gray-900 hover:text-gray-700">Docs</a>
               <a
                 v-for="item in resources"
                 :key="item.name"
@@ -332,12 +293,7 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component'
-import {
-  Popover,
-  PopoverButton,
-  PopoverGroup,
-  PopoverPanel,
-} from '@headlessui/vue'
+import { Popover, PopoverButton, PopoverGroup, PopoverPanel } from '@headlessui/vue'
 import {
   BookmarkAltIcon,
   CalendarIcon,

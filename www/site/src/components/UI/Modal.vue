@@ -1,10 +1,6 @@
 <template>
   <TransitionRoot as="template" :show="open">
-    <Dialog
-      as="div"
-      class="fixed z-10 inset-0 overflow-y-auto"
-      @close="open = false"
-    >
+    <Dialog as="div" class="fixed z-10 inset-0 overflow-y-auto" @close="open = false">
       <div
         class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
       >
@@ -17,16 +13,11 @@
           leave-from="opacity-100"
           leave-to="opacity-0"
         >
-          <DialogOverlay
-            class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
-          />
+          <DialogOverlay class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
         </TransitionChild>
 
         <!-- This element is to trick the browser into centering the modal contents. -->
-        <span
-          class="hidden sm:inline-block sm:align-middle sm:h-screen"
-          aria-hidden="true"
-        >
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
           &#8203;
         </span>
         <TransitionChild
