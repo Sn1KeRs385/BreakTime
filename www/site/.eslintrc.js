@@ -1,9 +1,10 @@
 module.exports = {
   env: {
-    node: true,
-    es6: true,
-    browser: true,
-    commonjs: true,
+    'node': true,
+    'es6': true,
+    'browser': true,
+    'commonjs': true,
+    'vue/setup-compiler-macros': true,
   },
   extends: [
     'eslint:recommended',
@@ -36,6 +37,7 @@ module.exports = {
     'promise/no-new-statics': 'error',
     'promise/no-return-in-finally': 'warn',
     'promise/valid-params': 'warn',
+    'vue/multi-word-component-names': 0,
   },
 
   parser: 'vue-eslint-parser',

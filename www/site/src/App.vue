@@ -10,24 +10,30 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component'
 import * as Layouts from '@/layouts'
 import { LAYOUTS } from '@/plugins/router'
+import { defineComponent, computed } from 'vue'
+import { useRoute } from 'vue-router'
 
-@Options({
+export default defineComponent({
+  name: 'App',
   components: {
     ...Layouts,
   },
-})
-export default class App extends Vue {
-  get layout(): string {
-    let layout: string | undefined = this.$route.meta.layout as string
-    if (layout) {
-      if (!Object.keys(Layouts).includes(layout)) {
-        layout = undefined
+  setup() {
+    const route = useRoute()
+    const layout = computed((): string => {
+      let layout: string | undefined = route.meta.layout as string
+      if (layout) {
+        if (!Object.keys(Layouts).includes(layout)) {
+          layout = undefined
+        }
       }
+      return layout || LAYOUTS.DEFAULT_LAYOUT
+    })
+    return {
+      layout,
     }
-    return layout || LAYOUTS.DEFAULT_LAYOUT
-  }
-}
+  },
+})
 </script>

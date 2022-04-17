@@ -1,3 +1,15 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const phone = ref('')
+const password = ref('')
+const showPassword = ref(false)
+const rules = {
+  required: (value) => !!value || 'Required.',
+  min: (v) => v.length >= 8 || 'Min 8 characters',
+}
+</script>
+
 <template>
   <v-card>
     <v-card-text>
@@ -22,31 +34,5 @@
         @click:append="showPassword = !showPassword"
       ></v-text-field>
     </v-card-text>
-    <v-divider class="mt-12"></v-divider>
-    <v-card-actions>
-      <v-btn text>Закрыть</v-btn>
-      <v-spacer></v-spacer>
-      <v-btn color="primary" text @click="submit">Вход</v-btn>
-    </v-card-actions>
   </v-card>
 </template>
-
-<script lang="ts">
-import { Options, Vue } from 'vue-class-component'
-
-@Options({
-  components: {},
-})
-export default class Login extends Vue {
-  phone = ''
-  password = ''
-  showPassword = false
-
-  rules = {
-    required: (value) => !!value || 'Required.',
-    min: (v) => v.length >= 8 || 'Min 8 characters',
-  }
-
-  submit() {}
-}
-</script>

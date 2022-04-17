@@ -1,14 +1,5 @@
 <template>
-  <div class="max-w-screen-2xl mx-auto px-4 sm:px-6">
+  <div class="t-max-w-screen-2xl t-mx-auto t-px-4 sm:t-px-6">
     <slot></slot>
   </div>
 </template>
-
-<script lang="ts">
-import { Options, Vue } from 'vue-class-component'
-
-@Options({
-  components: {},
-})
-export default class DefaultLayout extends Vue {}
-</script>
